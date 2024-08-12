@@ -23,16 +23,25 @@ exports.handler = async (event, context) => {
 
     const [fields, files] = await parseForm(event);
 
+    if (!files.file || files.file.length === 0) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'No file uploaded' }),
+      };
+    }
+
     // Upload the image to Cloudinary
     const imageFile = files.file[0];
     const result = await cloudinary.uploader.upload(imageFile.path);
 
     // Process form fields
     const name = fields.name[0];
+    const prenom = fields.prenom[0];
     const message = fields.message[0];
 
     // Here you would typically store the data in a database
     console.log('Name:', name);
+    console.log('Prénom:', prenom);
     console.log('Message:', message);
     console.log('Image URL:', result.secure_url);
 
@@ -40,11 +49,13 @@ exports.handler = async (event, context) => {
       statusCode: 200,
       body: JSON.stringify({
         name,
+        prenom,
         message,
         imageUrl: result.secure_url,
       }),
     };
   } catch (error) {
+    console.error('Error:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message }),

@@ -71,7 +71,7 @@ function closeModal(modalId) {
 }
 
 document.getElementById('reviewForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Empêche le rechargement de la page
 
     const formData = new FormData(e.target);
 
@@ -86,7 +86,7 @@ document.getElementById('reviewForm').addEventListener('submit', async (e) => {
         if (response.ok) {
             displayReview(result);
         } else {
-            console.error(result.error);
+            console.error('Error:', result.error);
         }
     } catch (error) {
         console.error('Error:', error);
@@ -98,14 +98,13 @@ function displayReview(review) {
     
     const reviewElement = document.createElement('div');
     reviewElement.innerHTML = `
-        <p><strong>${review.name}</strong></p>
+        <p><strong>${review.name} ${review.prenom}</strong></p>
         <p>${review.message}</p>
         <img src="${review.imageUrl}" alt="Photo" style="max-width: 100%; height: auto;">
     `;
     
     reviewsDiv.appendChild(reviewElement);
 }
-
 // Gestion du formulaire d'avis existant
 document.getElementById('avis-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Empêche le rechargement de la page
