@@ -474,34 +474,17 @@ h3 {
   color: #bbb;
   text-align: center;
 }
-
-#temoignages {
-  padding: 50px 20px;
-  background-color: #111;
-  border-radius: 10px;
-  text-align: center;
-  margin: 20px 0;
-}
-
-#temoignages h2 {
-  font-size: 2.5em;
-  color: #ccbb61;
-  margin-bottom: 50px;
-}
-.temoignages {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
 .temoignage {
- 
   padding: 20px;
   border-radius: 10px;
   border: 2px solid #ccbb61;
   position: relative;
   color: #fff;
-
+  text-align: center;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .photo-container {
@@ -510,9 +493,7 @@ h3 {
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid #ccbb61;
-  position: absolute;
-  top: -30px;
-  left: calc(50% - 30px);
+  margin-top: -30px; /* Décalage vers le haut pour qu'il soit sur la première ligne */
 }
 
 .photo-container img {
@@ -521,30 +502,38 @@ h3 {
   object-fit: cover;
 }
 
-.quote-icon {
-  position: absolute;
-  top: 40px;
-  left: 10px;
-  font-size: 2.5em;
-  color: #fff;
-}
-.quote-icon2 {
-  position: absolute;
-  top: 40px;
-  left: 409px;
-  font-size: 2.5em;
-  color: #fff;
-}
-.temoignage p {
-  margin: 60px 0 20px 0;
-  font-size: 1em;
+.temoignage-message {
+  position: relative;
+  font-size: 1.5em;
+  font-style: italic;
+  margin: 20px 0;
+  padding: 0 20px;
 }
 
-.temoignage h3 {
+.quote-icon,
+.quote-icon2 {
+  font-size: 2.5em;
+  color: #ccbb61;
+  position: absolute;
+}
+
+.quote-icon {
+  left: 0;
+  top: -10px;
+}
+
+.quote-icon2 {
+  right: 0;
+  bottom: -10px;
+}
+
+.temoignage-nom {
   font-size: 1.2em;
   font-weight: bold;
-  margin-top: 10px;
+  margin-top: 15px;
+  color: #ccbb61;
 }
+
 
 /* Responsive */
 @media (max-width: 768px) {
