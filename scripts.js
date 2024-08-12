@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const prenom = document.getElementById('prenom').value;
             const avis = document.getElementById('message').value;
             const file = document.getElementById('file').files[0];
-            const clientId = 'YOUR_IMGUR_CLIENT_ID'; // Remplacez par votre vrai Client ID Imgur
+            const clientId = '2f6cc0604610439'; // Remplacez par votre vrai Client ID Imgur
 
             if (nom && prenom && avis) {
                 let imageUrl = '';
