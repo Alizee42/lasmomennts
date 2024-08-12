@@ -10,33 +10,37 @@ exports.handler = async function(event, context) {
         };
     }
 
-    const busboy = Busboy({ headers: event.headers });
-
-    const tmpdir = '/tmp/uploads';
-    if (!fs.existsSync(tmpdir)) {
-        fs.mkdirSync(tmpdir);
-    }
-
-    const uploads = {};
-
     return new Promise((resolve, reject) => {
+        const busboy = new Busboy({ headers: event.headers });
+        const uploads = {};
+
         busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-            const filepath = path.join(tmpdir, filename);
-            uploads[fieldname] = filepath;
-            file.pipe(fs.createWriteStream(filepath));
+            const filepath = path.join('/tmp', filename);
+            uploads[fieldname] = { filepath, filename };
+
+            const writeStream = fs.createWriteStream(filepath);
+            file.pipe(writeStream);
+
+            writeStream.on('close', () => {
+                console.log(`File [${fieldname}] uploaded successfully to ${filepath}`);
+            });
         });
 
         busboy.on('finish', () => {
             resolve({
                 statusCode: 200,
-                body: JSON.stringify({ message: 'File uploaded successfully', files: uploads }),
+                body: JSON.stringify({
+                    message: 'File uploaded successfully',
+                    files: uploads,
+                }),
             });
         });
 
         busboy.on('error', (error) => {
+            console.error('Error processing file:', error);
             reject({
                 statusCode: 500,
-                body: JSON.stringify({ error: 'File upload error', details: error }),
+                body: JSON.stringify({ error: 'File upload error', details: error.message }),
             });
         });
 
