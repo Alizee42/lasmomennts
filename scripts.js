@@ -74,32 +74,25 @@ function closeModal(modalId) {
 document.addEventListener('click', startMusicOnInteraction);
 
 document.getElementById('avis-form').addEventListener('submit', function(event) {
-    event.preventDefault();
+    event.preventDefault(); // Empêche le rechargement de la page
 
-    const form = document.getElementById('avis-form');
-    const formData = new FormData(form);
+    const nom = document.getElementById('nom').value;
+    const prenom = document.getElementById('prenom').value;
+    const avis = document.getElementById('avis').value;
+    const date = document.getElementById('date').value;
 
-    fetch('/.netlify/functions/upload-photo', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.text())  // Récupérer la réponse sous forme de texte brut
-    .then(text => {
-        console.log('Réponse brute:', text);  // Afficher la réponse brute dans la console
-        try {
-            // Assurez-vous que la réponse est du JSON valide
-            if (text.startsWith('{') || text.startsWith('[')) {
-                const data = JSON.parse(text);  // Tenter de parser le texte en JSON
-                console.log('Données parsées:', data);
-                // Traitement supplémentaire si nécessaire
-            } else {
-                console.error('La réponse n\'est pas un JSON valide:', text);
-            }
-        } catch (error) {
-            console.error('Erreur lors du parsing JSON:', error);
-        }
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-    });
+    // Crée un nouvel élément pour l'avis
+    const newAvis = document.createElement('div');
+    newAvis.classList.add('temoignage');
+    newAvis.innerHTML = `
+        <h3>${nom} ${prenom}</h3>
+        <p>${avis}</p>
+        <small>${new Date(date).toLocaleDateString()}</small>
+    `;
+
+    // Ajoute l'avis au début de la liste des témoignages
+    document.getElementById('temoignages-list').prepend(newAvis);
+
+    // Réinitialise le formulaire
+    document.getElementById('avis-form').reset();
 });
