@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "googleapis": "^140.0.1"
+    "googleapis": "^140.0.1",
+    "multiparty": "^4.2.3"
   }
 }
