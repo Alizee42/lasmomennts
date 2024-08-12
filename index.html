@@ -170,22 +170,19 @@
 <section id="temoignages" class="section-border">
     <div class="container">
         <h2>Ils ont vécu l'expérience Las Moments</h2>
-        <div class="temoignages" id="temoignages-list">
-            <!-- Les avis existants seront affichés ici -->
-            <!-- Exemple de témoignage structuré -->
-            <div class="temoignage">
-                <div class="photo-container">
-                    <img src="URL_DE_LA_PHOTO" alt="Photo" class="temoignage-photo">
-                </div>
-                <div class="temoignage-message">
-                    <span class="quote-icon">“</span>
-                    <p class="message-texte">Ceci est un exemple de message.</p>
-                    <span class="quote-icon2">”</span>
-                </div>
-                <div class="temoignage-nom">
-                    <p>Nom Prénom</p>
-                </div>
+        <div class="preview-container" id="previewContainer">
+            <h3>Prévisualisation des Avis</h3>
+            <div id="previewList"></div>
+            <button id="confirmButton">Confirmer l'envoi</button>
+        </div>
+        <div class="temoignages-container">
+            <div id="temoignages-list" class="temoignages-list">
+                <!-- Les avis existants seront affichés ici -->
             </div>
+        </div>
+        <div class="carousel-controls">
+            <button id="prevButton">Précédent</button>
+            <button id="nextButton">Suivant</button>
         </div>
         <h3>Laissez votre avis</h3>
         <form id="reviewForm" enctype="multipart/form-data">
@@ -205,7 +202,6 @@
         </form>
     </div>
 </section>
-
 
 
 <section id="contact" class="section-border">

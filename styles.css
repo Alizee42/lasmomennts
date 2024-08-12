@@ -533,7 +533,47 @@ h3 {
   margin-top: 15px;
   color: #ccbb61;
 }
+.temoignages-container {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
 
+.temoignages-list {
+  display: flex;
+  flex-wrap: nowrap;
+  transition: transform 0.5s ease;
+}
+
+.temoignage {
+  flex: 1 0 25%;
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+}
+
+.temoignage img {
+  max-width: 100%;
+  height: auto;
+}
+
+.carousel-controls {
+  text-align: center;
+  margin: 10px;
+}
+
+.carousel-controls button {
+  margin: 0 5px;
+}
+
+.preview-container {
+  margin-bottom: 20px;
+}
+
+.preview-item {
+  margin: 10px 0;
+}
 
 /* Responsive */
 @media (max-width: 768px) {
