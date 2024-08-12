@@ -10,7 +10,7 @@ exports.handler = async function(event, context) {
         };
     }
 
-    const busboy = new Busboy({ headers: event.headers });
+    const busboy = Busboy({ headers: event.headers });
 
     const tmpdir = '/tmp/uploads';
     if (!fs.existsSync(tmpdir)) {
