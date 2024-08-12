@@ -1,49 +1,53 @@
-const Busboy = require('busboy');
-const fs = require('fs');
-const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const multiparty = require('multiparty');
+const { promisify } = require('util');
 
-exports.handler = async function(event, context) {
-    if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            body: 'Method Not Allowed',
-        };
-    }
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-    return new Promise((resolve, reject) => {
-        const busboy = new Busboy({ headers: event.headers });
-        const uploads = {};
+exports.handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      body: JSON.stringify({ error: 'Method not allowed' }),
+    };
+  }
 
-        busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-            const filepath = path.join('/tmp', filename);
-            uploads[fieldname] = { filepath, filename };
+  try {
+    const form = new multiparty.Form();
+    const parseForm = promisify(form.parse.bind(form));
 
-            const writeStream = fs.createWriteStream(filepath);
-            file.pipe(writeStream);
+    const [fields, files] = await parseForm(event);
 
-            writeStream.on('close', () => {
-                console.log(`File [${fieldname}] uploaded successfully to ${filepath}`);
-            });
-        });
+    // Upload the image to Cloudinary
+    const imageFile = files.file[0];
+    const result = await cloudinary.uploader.upload(imageFile.path);
 
-        busboy.on('finish', () => {
-            resolve({
-                statusCode: 200,
-                body: JSON.stringify({
-                    message: 'File uploaded successfully',
-                    files: uploads,
-                }),
-            });
-        });
+    // Process form fields
+    const name = fields.name[0];
+    const message = fields.message[0];
 
-        busboy.on('error', (error) => {
-            console.error('Error processing file:', error);
-            reject({
-                statusCode: 500,
-                body: JSON.stringify({ error: 'File upload error', details: error.message }),
-            });
-        });
+    // Here you would typically store the data in a database
+    console.log('Name:', name);
+    console.log('Message:', message);
+    console.log('Image URL:', result.secure_url);
 
-        busboy.end(Buffer.from(event.body, 'base64'));
-    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+        name,
+        message,
+        imageUrl: result.secure_url,
+      }),
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message }),
+    };
+  }
 };

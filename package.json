@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "busboy": "^1.6.0",
+    "cloudinary": "^2.4.0",
     "googleapis": "^140.0.1",
     "multiparty": "^4.2.3"
   }

@@ -70,9 +70,43 @@ function closeModal(modalId) {
     document.removeEventListener('click', startMusicOnInteraction);
 }
 
-// Ajout d'un écouteur d'événement pour démarrer la musique à la première interaction
-document.addEventListener('click', startMusicOnInteraction);
+document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
+    const formData = new FormData(e.target);
+
+    try {
+        const response = await fetch('/.netlify/functions/upload-photo', {
+            method: 'POST',
+            body: formData,
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            displayReview(result);
+        } else {
+            console.error(result.error);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+function displayReview(review) {
+    const reviewsDiv = document.getElementById('reviews');
+    
+    const reviewElement = document.createElement('div');
+    reviewElement.innerHTML = `
+        <p><strong>${review.name}</strong></p>
+        <p>${review.message}</p>
+        <img src="${review.imageUrl}" alt="Photo" style="max-width: 100%; height: auto;">
+    `;
+    
+    reviewsDiv.appendChild(reviewElement);
+}
+
+// Gestion du formulaire d'avis existant
 document.getElementById('avis-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Empêche le rechargement de la page
 
