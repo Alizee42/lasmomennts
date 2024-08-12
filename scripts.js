@@ -4,15 +4,44 @@ document.addEventListener('DOMContentLoaded', function() {
     const temoignagesList = document.getElementById('temoignages-list');
 
     if (avisForm && temoignagesList) {
-        avisForm.addEventListener('submit', function(event) {
+        avisForm.addEventListener('submit', async function(event) {
             event.preventDefault(); // Empêche le rechargement de la page
 
             const nom = document.getElementById('name')?.value;
             const prenom = document.getElementById('prenom')?.value;
             const avis = document.getElementById('message')?.value;
             const file = document.getElementById('file')?.files[0];
+            const clientId = 'YOUR_IMGUR_CLIENT_ID'; // Remplacez par votre Client ID Imgur
 
             if (nom && prenom && avis) {
+                let imageUrl = '';
+
+                if (file) {
+                    // Télécharger l'image sur Imgur
+                    const formData = new FormData();
+                    formData.append('image', file);
+
+                    try {
+                        const response = await fetch('https://api.imgur.com/3/image', {
+                            method: 'POST',
+                            headers: {
+                                Authorization: `2f6cc0604610439 ${clientId}`,
+                            },
+                            body: formData,
+                        });
+
+                        const result = await response.json();
+
+                        if (result.success) {
+                            imageUrl = result.data.link;
+                        } else {
+                            console.error('Erreur lors du téléchargement sur Imgur:', result.data.error);
+                        }
+                    } catch (error) {
+                        console.error('Erreur lors du téléchargement:', error);
+                    }
+                }
+
                 // Crée un nouvel élément pour l'avis
                 const newAvis = document.createElement('div');
                 newAvis.classList.add('temoignage');
@@ -20,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h3>${nom} ${prenom}</h3>
                     <p>${avis}</p>
                     <small>${new Date().toLocaleDateString()}</small>
+                    ${imageUrl ? `<img src="${imageUrl}" alt="Photo" style="max-width: 100%; height: auto;">` : ''}
                 `;
 
                 // Ajoute l'avis au début de la liste des témoignages
