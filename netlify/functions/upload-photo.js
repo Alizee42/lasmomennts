@@ -1,4 +1,4 @@
-const multiparty = require('multiparty');
+const Busboy = require('busboy');
 const fs = require('fs');
 const path = require('path');
 
@@ -10,45 +10,36 @@ exports.handler = async function(event, context) {
         };
     }
 
-    const form = new multiparty.Form();
-    const uploadDir = '/tmp/uploads'; // Utilisez un stockage temporaire sur Lambda
+    const busboy = new Busboy({ headers: event.headers });
 
-    if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir);
+    const tmpdir = '/tmp/uploads';
+    if (!fs.existsSync(tmpdir)) {
+        fs.mkdirSync(tmpdir);
     }
 
+    const uploads = {};
+
     return new Promise((resolve, reject) => {
-        form.parse(event, (err, fields, files) => {
-            if (err) {
-                console.error('Error parsing form:', err);
-                return resolve({
-                    statusCode: 500,
-                    body: 'Error parsing form',
-                });
-            }
+        busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+            const filepath = path.join(tmpdir, filename);
+            uploads[fieldname] = filepath;
+            file.pipe(fs.createWriteStream(filepath));
+        });
 
-            const file = files.photo[0];
-            const tempPath = file.path;
-            const targetPath = path.join(uploadDir, file.originalFilename);
-
-            fs.rename(tempPath, targetPath, err => {
-                if (err) {
-                    console.error('Error saving file:', err);
-                    return resolve({
-                        statusCode: 500,
-                        body: 'Error saving file',
-                    });
-                }
-
-                console.log('File saved to', targetPath);
-                resolve({
-                    statusCode: 200,
-                    body: JSON.stringify({
-                        message: 'File uploaded successfully',
-                        filePath: targetPath, // Vous utiliserez une URL de stockage réel ici
-                    }),
-                });
+        busboy.on('finish', () => {
+            resolve({
+                statusCode: 200,
+                body: JSON.stringify({ message: 'File uploaded successfully', files: uploads }),
             });
         });
+
+        busboy.on('error', (error) => {
+            reject({
+                statusCode: 500,
+                body: JSON.stringify({ error: 'File upload error', details: error }),
+            });
+        });
+
+        busboy.end(Buffer.from(event.body, 'base64'));
     });
 };
