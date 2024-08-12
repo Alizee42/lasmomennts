@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Las Moments - Page d'acceuil</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap">
+</head>
+<body>
+     <!-- Musique de fond -->
+     <audio id="background-music" autoplay loop>
+        <source src="music/Ketsa - If You Waited.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas la balise audio.
+    </audio>
+    <header>
+        <div class="container">
+            <img src="./img/image003-modified-removebg-preview.png" alt="Logo" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="#details">Nos Prestations</a></li>
+                    <li><a href="#tarifs">Nos Tarifs</a></li>
+                    <li><a href="#exemples">Galerie</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <div class="hero-circle">
+                    <img src="./img/Photobooth 360.jpeg" alt="Photo Photobooth">
+                </div>
+                <div class="hero-text">
+                    <h1>Photobooth 360</h1>
+                    <p>Animez vos événements avec notre photobooth 360 de haute qualité.</p>
+                    <a href="#details" class="btn">En savoir plus</a>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/lasmoments2024/?igsh=MXcxNTA4a3I0czl2Yw%3D%3D&utm_source=qr"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>        
+        <section id="details" class="section-border">
+            <div class="container">
+                <h2>Nos Prestations</h2>
+                <div class="cards">
+                    <div class="card">
+                        <img src="./img/image008.jpg" alt="Prestation Mariage et Anniversaire" class="card-img">
+                        <div class="card-content">
+                            <h3><i class="fas fa-heart icon"></i> Prestation Mariage et Anniversaire</h3>
+                            <p>Immortalisez chaque moment précieux de votre mariage ou de vos fêtes avec des vidéos à 360 degrés. Personnalisez l'expérience avec des animations d'introduction et de fin, des filtres créatifs et des accessoires amusants.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="./img/image009.jpg" alt="Prestation BtoB" class="card-img">
+                        <div class="card-content">
+                            <h3><i class="fas fa-briefcase icon"></i> Prestation BtoB</h3>
+                            <p>Faites de vos événements d'entreprise un succès mémorable avec des vidéos interactives et personnalisées. Ajoutez des logos, de la musique, et partagez instantanément via vos téléphones portables (sms, air drop…)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>        
+        <section id="tarifs" class="section-border">
+            <div class="container">
+                <h2>Nos Tarifs</h2>
+                <div class="pricing-cards">
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Prestation Classique</h3>                        
+                        </div>
+                        <p class="price">À partir de 200€</p>
+                        <p class="discount">-30% pour une réservation avant le 30 septembre 2024</p>
+                        <div class="pricing-body">
+                            <ul class="pricing-features">
+                                <li>2h d'animation</li>
+                                <li>Location du matériel PhotoBooth Spinner 360 + mise en scène de sécurité (tapis rouge + potelets) + accessoires</li>
+                                <li>Vidéos explicatives du montage + utilisation du matériel</li>
+                                <li>Création d’un Filtre personnalisé avec logo ou autres</li>
+                            </ul>
+                            <button class="btn-toggle" onclick="openModal('modal1')">En savoir plus</button> 
+                        </div>                      
+                    </div>
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Prestation Premium</h3>
+                        </div>
+                        <p class="price">À partir de 350€</p>
+                        <p class="discount">-30% pour une réservation avant le 30 septembre 2024</p>
+                        <div class="pricing-body">
+                            <ul class="pricing-features">
+                                <li>2h d'animation</li>
+                                <li>Photobooth Spinner 360 + mise en scène de sécurité (tapis rouge + potelets)</li>
+                                <li>Animation prise en charge par un animateur</li>
+                                <li>Création d’un Filtre personnalisé avec logo ou autres</li>
+                                <li>Accessoires</li>
+                                <li>Envoie des vidéos aux invités en direct sur les téléphones portables</li>
+                                <li>En option : clé USB remise après l’événement avec 100% des vidéos filmées</li>
+                            </ul>
+                            <button class="btn-toggle" onclick="openModal('modal2')">En savoir plus</button>
+                  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+<!-- Modale Prestation Classique -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal1')">&times;</span>
+        <h3>Prestation Classique</h3>
+        <p>La prestation comprend :</p>
+        <ul class="features-list">
+            <li>Livraison</li>
+            <li>Installation</li>
+            <li>Désinstallation</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Modale Prestation Premium -->
+<div id="modal2" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('modal2')">&times;</span>
+        <h3>Prestation Premium</h3>
+        <p>La prestation comprend :</p>
+        <ul class="features-list">
+            <li>Livraison</li>
+            <li>Installation</li>
+            <li>Animation 2h</li>
+            <li>Désinstallation</li>
+        </ul>
+    </div>
+</div>
+        
+<section id="exemples" class="section-border">
+    <div class="container">
+        <h2>Galerie</h2>
+        <div class="videos">
+            <div class="video-wrapper">
+                <video controls poster="./img/image1.png">
+                    <source src="./img/20240620_215406390.MP4" type="video/mp4">
+                    Votre navigateur ne supporte pas la balise vidéo.
+                </video>
+            </div>
+            <div class="video-wrapper">
+                <video controls poster="./img/image2.png">
+                    <source src="./img/20240606_220035657.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la balise vidéo.
+                </video>
+            </div>
+            <div class="video-wrapper">
+                <video controls poster="./img/image3.png">
+                    <source src="./img/20240706_234602909.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la balise vidéo.
+                </video>
+            </div>
+            <div class="video-wrapper">
+                <video controls poster="./img/image4.png">
+                    <source src="./img/20240707_000707168.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la balise vidéo.
+                </video>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="temoignages" class="section-border">
+    <div class="container">
+        <h2>Ils ont vécu l'expérience Las Moments</h2>
+        <div class="temoignages" id="temoignages-list">
+            <!-- Les avis existants seront affichés ici -->
+        </div>
+        <h3>Laissez votre avis</h3>
+        <form id="avis-form" name="avis" method="POST" enctype="multipart/form-data" data-netlify="true" data-netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="avis">
+            <p class="hidden">
+                <label>Ne remplissez pas ceci si vous êtes un humain : <input name="bot-field"></label>
+            </p>
+            <div class="form-group">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" required>
+            </div>
+            <div class="form-group">
+                <label for="prenom">Prénom</label>
+                <input type="text" id="prenom" name="prenom" required>
+            </div>
+            <div class="form-group">
+                <label for="photo">Photo</label>
+                <input type="file" id="photo" name="photo" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <label for="avis">Votre avis</label>
+                <textarea id="avis" name="avis" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <button type="submit">Envoyer</button>
+        </form>
+        
+    </div>
+</section>
+
+<section id="contact" class="section-border">
+    <div class="container">
+        <h2>Contact</h2>
+        <p>Pour toute question ou demande de réservation, veuillez nous contacter :</p>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <ul>
+                    <li><i class="fas fa-phone-alt"></i> Téléphone : 06 45 39 52 70</li>
+                    <li><i class="fas fa-envelope"></i>  Email : dimitri.lasmoments@gmail.com</li>
+                </ul>
+                <img src="img/PHOTO-2024-07-12-14-28-23-removebg-preview.png" alt="Contact Photo" class="contact-photo">
+            </div>
+            <div class="contact-form">
+                <div class="rotating-message" id="rotating-message"></div>
+                <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field"  action="./confirmation.html">
+                    <input type="hidden" name="form-name" value="contact">
+                    <p class="hidden">
+                        <label>Ne remplissez pas ceci si vous êtes un humain : <input name="bot-field"></label>
+                    </p>
+                    <div class="form-group">
+                        <label for="name">Nom</label>
+                        <input type="text" id="name" name="name"  required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Téléphone</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message"  required></textarea>
+                    </div>
+                    <button type="submit">Envoyer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+    </main>
+    <div class="music-controls">
+        <button id="music-toggle" onclick="toggleMusic()">
+            <i id="music-icon" class="fas fa-play"></i>
+        </button>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="scripts.js"></script>
+    
+</body>
+</html>
