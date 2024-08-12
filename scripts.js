@@ -1,23 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Ajout des fonctionnalités pour le formulaire d'avis
     const avisForm = document.getElementById('reviewForm');
     const temoignagesList = document.getElementById('temoignages-list');
 
     if (avisForm && temoignagesList) {
         avisForm.addEventListener('submit', async function(event) {
-            event.preventDefault(); // Empêche le rechargement de la page
+            event.preventDefault();
 
-            const nom = document.getElementById('name')?.value;
-            const prenom = document.getElementById('prenom')?.value;
-            const avis = document.getElementById('message')?.value;
-            const file = document.getElementById('file')?.files[0];
-            const clientId = '2f6cc0604610439'; // Remplacez par votre Client ID Imgur
+            const nom = document.getElementById('name').value;
+            const prenom = document.getElementById('prenom').value;
+            const avis = document.getElementById('message').value;
+            const file = document.getElementById('file').files[0];
+            const clientId = 'YOUR_IMGUR_CLIENT_ID'; // Remplacez par votre vrai Client ID Imgur
 
             if (nom && prenom && avis) {
                 let imageUrl = '';
 
                 if (file) {
-                    // Télécharger l'image sur Imgur
                     const formData = new FormData();
                     formData.append('image', file);
 
@@ -25,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const response = await fetch('https://api.imgur.com/3/image', {
                             method: 'POST',
                             headers: {
-                                Authorization: `2f6cc0604610439 ${clientId}`,
+                                Authorization: `Client-ID ${clientId}`,
                             },
                             body: formData,
                         });
@@ -42,20 +40,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
 
-                // Crée un nouvel élément pour l'avis
                 const newAvis = document.createElement('div');
                 newAvis.classList.add('temoignage');
                 newAvis.innerHTML = `
-                    <h3>${nom} ${prenom}</h3>
-                    <p>${avis}</p>
-                    <small>${new Date().toLocaleDateString()}</small>
-                    ${imageUrl ? `<img src="${imageUrl}" alt="Photo" style="max-width: 100%; height: auto;">` : ''}
+                    <div class="photo-container">
+                        <img src="${imageUrl}" alt="Photo" class="temoignage-photo">
+                    </div>
+                    <div class="temoignage-message">
+                        <span class="quote-icon">“</span>
+                        <p class="message-texte">${avis}</p>
+                        <span class="quote-icon2">”</span>
+                    </div>
+                    <div class="temoignage-nom">
+                        <p>${nom} ${prenom}</p>
+                    </div>
                 `;
 
-                // Ajoute l'avis au début de la liste des témoignages
                 temoignagesList.prepend(newAvis);
-
-                // Réinitialise le formulaire
                 avisForm.reset();
             } else {
                 console.error("Tous les champs doivent être remplis.");
@@ -66,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Gestion des autres fonctionnalités
-
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const messages = [
-       "Organisez un événement mémorable avec notre Photobooth 360 !",
+        "Organisez un événement mémorable avec notre Photobooth 360 !",
         "Avez-vous des questions sur le projet ? Contactez-nous dès maintenant !"
     ];
 
