@@ -1,129 +1,123 @@
+import { db, storage } from './firebase-config.js';
+import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
+import { collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
 document.addEventListener('DOMContentLoaded', function() {
+   
     const avisForm = document.getElementById('reviewForm');
     const temoignagesList = document.getElementById('temoignages-list');
 
-    if (avisForm && temoignagesList) {
-        avisForm.addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const nom = document.getElementById('name').value;
-            const prenom = document.getElementById('prenom').value;
-            const avis = document.getElementById('message').value;
-            const file = document.getElementById('file').files[0];
-            const clientId = '2f6cc0604610439'; // Remplacez par votre vrai Client ID Imgur
-
-            if (nom && prenom && avis) {
-                let imageUrl = '';
-
-                if (file) {
-                    const formData = new FormData();
-                    formData.append('image', file);
-
-                    try {
-                        const response = await fetch('https://api.imgur.com/3/image', {
-                            method: 'POST',
-                            headers: {
-                                Authorization: `Client-ID ${clientId}`,
-                            },
-                            body: formData,
-                        });
-
-                        const result = await response.json();
-
-                        if (result.success) {
-                            imageUrl = result.data.link;
-                        } else {
-                            console.error('Erreur lors du téléchargement sur Imgur:', result.data.error);
-                        }
-                    } catch (error) {
-                        console.error('Erreur lors du téléchargement:', error);
-                    }
-                }
-
-                const newAvis = document.createElement('div');
-                newAvis.classList.add('temoignage');
-                newAvis.innerHTML = `
-                    <div class="photo-container">
-                        <img src="${imageUrl}" alt="Photo" class="temoignage-photo">
-                    </div>
-                    <div class="temoignage-message">
-                        <span class="quote-icon">“</span>
-                        <p class="message-texte">${avis}</p>
-                        <span class="quote-icon2">”</span>
-                    </div>
-                    <div class="temoignage-nom">
-                        <p>${nom} ${prenom}</p>
-                    </div>
-                `;
-
-                temoignagesList.prepend(newAvis);
-                avisForm.reset();
-            } else {
-                console.error("Tous les champs doivent être remplis.");
-            }
-        });
-    } else {
-        console.error('Le formulaire ou la liste des témoignages est introuvable.');
+    // Fonction pour ouvrir ou fermer une modale
+    function toggleModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            const isModalVisible = modal.style.display === "block";
+            modal.style.display = isModalVisible ? "none" : "block";
+        } else {
+            console.error(`Modale avec l'ID ${modalId} introuvable.`);
+        }
     }
 
-    // Gestion des autres fonctionnalités
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetElement = document.querySelector(this.getAttribute('href'));
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth'
-                });
+    // Rendre toggleModal disponible globalement
+    window.toggleModal = toggleModal;
+
+    document.querySelectorAll('.modal .close').forEach(closeButton => {
+        closeButton.addEventListener('click', function() {
+            const modal = this.closest('.modal');
+            if (modal) {
+                toggleModal(modal.id);
             }
         });
     });
 
-    function toggleFeatures(button) {
-        const featuresList = button.nextElementSibling;
-        if (featuresList) {
-            if (featuresList.style.display === "none" || featuresList.style.display === "") {
-                featuresList.style.display = "block";
-                button.textContent = "Afficher moins";
-            } else {
-                featuresList.style.display = "none";
-                button.textContent = "En savoir plus";
+    window.addEventListener('click', function(event) {
+        document.querySelectorAll('.modal').forEach(modal => {
+            if (event.target === modal) {
+                toggleModal(modal.id);
             }
-        }
+        });
+    });
+
+    if (avisForm) {
+        avisForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+    
+            const nom = document.getElementById('name').value;
+            const prenom = document.getElementById('prenom').value;
+            const message = document.getElementById('message').value;
+            const file = document.getElementById('file').files[0];
+    
+            if (nom && prenom && message) {
+                let imageUrl = '';
+    
+                if (file) {
+                    const fileRef = ref(storage, `images/${file.name}`);
+    
+                    try {
+                        const snapshot = await uploadBytes(fileRef, file);
+                        imageUrl = await getDownloadURL(snapshot.ref);
+                    } catch (error) {
+                        console.error('Erreur lors du téléchargement sur Firebase:', error);
+                        return;
+                    }
+                }
+    
+                // Enregistrer l'avis dans Firestore
+                try {
+                    await addDoc(collection(db, 'reviews'), {
+                        name: nom,
+                        prenom: prenom,
+                        message: message,
+                        imageUrl: imageUrl,
+                        approved: false, // L'avis n'est pas approuvé par défaut
+                        createdAt: serverTimestamp()
+                    });
+                    alert("Votre avis a été soumis et attend l'approbation.");
+                    avisForm.reset();
+                    toggleModal('reviewModal'); // Fermer la modale après l'envoi
+                } catch (error) {
+                    console.error("Erreur lors de l'enregistrement de l'avis:", error);
+                }
+            } else {
+                console.error("Tous les champs doivent être remplis.");
+            }
+        });
     }
 
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = "block";
-        }
+    // Charger et afficher les avis approuvés
+    if (temoignagesList) {
+        const q = query(collection(db, 'reviews'), where('approved', '==', true), orderBy('createdAt', 'desc'));
+        onSnapshot(q, (snapshot) => {
+            temoignagesList.innerHTML = ''; // Réinitialiser l'affichage
+    
+            if (snapshot.empty) {
+                console.log("Aucun avis approuvé trouvé.");
+            } else {
+                snapshot.forEach(doc => {
+                    const review = doc.data();
+                    const newAvis = document.createElement('div');
+                    newAvis.classList.add('temoignage');
+                    newAvis.innerHTML = `
+                        <div class="photo-container">
+                            <img src="${review.imageUrl}" alt="Photo" class="temoignage-photo">
+                        </div>
+                        <div class="temoignage-message">
+                            <span class="quote-icon">“</span>
+                            <p class="message-texte">${review.message}</p>
+                            <span class="quote-icon2">”</span>
+                        </div>
+                        <div class="temoignage-nom">
+                            <p>${review.name} ${review.prenom}</p>
+                        </div>
+                    `;
+                    temoignagesList.appendChild(newAvis);
+                });
+            }
+        }, error => {
+            console.error("Erreur lors de la récupération des avis approuvés:", error);
+        });
     }
-
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = "none";
-        }
-    }
-
-    const messages = [
-        "Organisez un événement mémorable avec notre Photobooth 360 !",
-        "Avez-vous des questions sur le projet ? Contactez-nous dès maintenant !"
-    ];
-
-    let currentMessageIndex = 0;
-    const messageElement = document.getElementById("rotating-message");
-
-    function showNextMessage() {
-        if (messageElement) {
-            messageElement.textContent = messages[currentMessageIndex];
-            currentMessageIndex = (currentMessageIndex + 1) % messages.length;
-        }
-    }
-
-    setInterval(showNextMessage, 4000); // Change message every 4 seconds
-    showNextMessage(); // Show the first message immediately
-
+    // Gestion de la musique de fond
     function toggleMusic() {
         var audio = document.getElementById('background-music');
         var button = document.getElementById('music-toggle');
@@ -152,4 +146,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Événement d'interaction pour démarrer la musique
     document.addEventListener('click', startMusicOnInteraction);
+
+    // Rotation des messages
+    const messages = [
+        "Organisez un événement mémorable avec notre Photobooth 360 !",
+        "Avez-vous des questions sur le projet ? Contactez-nous dès maintenant !"
+    ];
+
+    let currentMessageIndex = 0;
+    const messageElement = document.getElementById("rotating-message");
+
+    function showNextMessage() {
+        if (messageElement) {
+            messageElement.textContent = messages[currentMessageIndex];
+            currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+        }
+    }
+
+    setInterval(showNextMessage, 4000); // Changer le message toutes les 4 secondes
+    showNextMessage(); // Afficher le premier message immédiatement
+
+    // Exposer la fonction toggleModal au global pour être utilisée dans le HTML
+    window.toggleModal = toggleModal;
 });

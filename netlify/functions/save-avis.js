@@ -1,49 +1,41 @@
-const { google } = require('googleapis');
+// save-avis.js
+import { db, storage, collection, addDoc, ref, uploadBytes, getDownloadURL } from './firebase-config.js';
 
-exports.handler = async function(event, context) {
-    if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            body: 'Method Not Allowed',
-        };
+async function saveAvisBrouillon(nom, prenom, avis, file) {
+  try {
+    // Upload de l'image
+    let imageUrl = '';
+    if (file) {
+      const storageRef = ref(storage, `avis/${file.name}`);
+      await uploadBytes(storageRef, file);
+      imageUrl = await getDownloadURL(storageRef);
     }
 
-    // Extraire les données soumises depuis le corps de la requête
-    const { nom, prenom, photo, avis, date } = JSON.parse(event.body);
-    const sheets = google.sheets('v4');
-
-    // Authentification avec Google Sheets API
-    const auth = new google.auth.GoogleAuth({
-        credentials: {
-            client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-            private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-        },
-        scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    // Enregistrement des avis dans la collection 'avis_brouillon'
+    await addDoc(collection(db, 'avis_brouillon'), {
+      nom,
+      prenom,
+      avis,
+      imageUrl,
+      date: new Date().toISOString(),
+      statut: 'en_attente'  // Indique que l'avis est en attente de validation
     });
 
-    const client = await auth.getClient();
-    const spreadsheetId = '1xa-p49icKGSSvScOfmeAIyLAmhDKA1_CO0pNVh4Eaas'; // Remplacez par l'ID de votre Google Sheet
+    console.log('Avis enregistré en brouillon avec succès!');
+  } catch (error) {
+    console.error('Erreur lors de l\'enregistrement de l\'avis en brouillon:', error);
+  }
+}
 
-    try {
-        // Enregistrer les données dans Google Sheets
-        await sheets.spreadsheets.values.append({
-            auth,
-            spreadsheetId,
-            range: 'Sheet1!A:E', // Assurez-vous que ce range correspond à vos colonnes
-            valueInputOption: 'RAW',
-            requestBody: {
-                values: [[nom, prenom, photo, avis, date]],
-            },
-        });
+// Exemple d'utilisation
+const form = document.getElementById('reviewForm');
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
 
-        return {
-            statusCode: 200,
-            body: JSON.stringify({ success: true }),
-        };
-    } catch (error) {
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ success: false, error: error.message }),
-        };
-    }
-};
+  const nom = document.getElementById('name').value;
+  const prenom = document.getElementById('prenom').value;
+  const avis = document.getElementById('message').value;
+  const file = document.getElementById('file').files[0];
+
+  await saveAvisBrouillon(nom, prenom, avis, file);
+});

@@ -1,13 +1,18 @@
-const cloudinary = require('cloudinary').v2;
+const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
+const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase-admin/storage');
 const multiparty = require('multiparty');
 const { promisify } = require('util');
+const fs = require('fs');
+const path = require('path');
 
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+// Configure Firebase Admin
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+initializeApp({
+  credential: cert(serviceAccount),
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
 });
+
+const bucket = getStorage().bucket();
 
 exports.handler = async (event, context) => {
   if (event.httpMethod !== 'POST') {
@@ -30,9 +35,21 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Upload the image to Cloudinary
+    // Upload the image to Firebase Storage
     const imageFile = files.file[0];
-    const result = await cloudinary.uploader.upload(imageFile.path);
+    const filePath = path.join('/tmp', imageFile.originalFilename); // Temporary file path
+    fs.writeFileSync(filePath, fs.readFileSync(imageFile.path));
+
+    const fileUpload = bucket.file(imageFile.originalFilename);
+    await fileUpload.save(fs.readFileSync(filePath), {
+      contentType: imageFile.headers['content-type'],
+    });
+
+    // Get the public URL of the uploaded file
+    const imageUrl = await fileUpload.getSignedUrl({
+      action: 'read',
+      expires: '03-09-2491', // URL expiration date
+    });
 
     // Process form fields
     const name = fields.name[0];
@@ -43,7 +60,10 @@ exports.handler = async (event, context) => {
     console.log('Name:', name);
     console.log('Prénom:', prenom);
     console.log('Message:', message);
-    console.log('Image URL:', result.secure_url);
+    console.log('Image URL:', imageUrl[0]);
+
+    // Clean up temporary file
+    fs.unlinkSync(filePath);
 
     return {
       statusCode: 200,
@@ -51,7 +71,7 @@ exports.handler = async (event, context) => {
         name,
         prenom,
         message,
-        imageUrl: result.secure_url,
+        imageUrl: imageUrl[0],
       }),
     };
   } catch (error) {

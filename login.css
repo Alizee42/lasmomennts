@@ -1,0 +1,76 @@
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: #111;
+    border: 2px solid #ccbb61;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    
+    /* Centrage au milieu de la page */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.login-container h1 {
+    color: #ccbb61;
+    margin-bottom: 20px;
+}
+
+.login-container .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.login-container label {
+    color: #ccbb61;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.login-container input[type="email"], 
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #222;
+    color: #fff;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.login-container input[type="email"]:focus,
+.login-container input[type="password"]:focus {
+    border-color: #ccbb61;
+    outline: none;
+}
+
+.login-container .submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #ccbb61;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.login-container .submit-button:hover {
+    background-color: #b3a44d;
+    transform: translateY(-3px);
+}
+
+.login-container .submit-button:active {
+    background-color: #a89345;
+    transform: translateY(0);
+}

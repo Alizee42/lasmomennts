@@ -380,7 +380,19 @@ h3 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.3s ease-in-out;
 }
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
 
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
 @keyframes fadeIn {
   from {
       opacity: 0;
@@ -475,27 +487,34 @@ h3 {
   text-align: center;
 }
 .temoignage {
-  padding: 20px;
   border-radius: 10px;
   border: 2px solid #ccbb61;
-  position: relative;
-  color: #fff;
-  text-align: center;
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1 0 25%;
+  box-sizing: border-box;
+  padding: 10px;
+  text-align: center;
+  transition: transform 0.3s;
+  margin-left: -22px;
+  margin-right: 35px;
 }
-
+.temoignage img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
 .photo-container {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid #ccbb61;
-  margin-top: -30px; /* Décalage vers le haut pour qu'il soit sur la première ligne */
+  margin-top: -48px;
 }
-
 .photo-container img {
   width: 100%;
   height: 100%;
@@ -524,9 +543,8 @@ h3 {
 
 .quote-icon2 {
   right: 0;
-  bottom: -10px;
+  bottom: 4px;
 }
-
 .temoignage-nom {
   font-size: 1.2em;
   font-weight: bold;
@@ -535,7 +553,6 @@ h3 {
 }
 .temoignages-container {
   display: flex;
-  overflow: hidden;
   width: 100%;
   position: relative;
 }
@@ -544,36 +561,240 @@ h3 {
   display: flex;
   flex-wrap: nowrap;
   transition: transform 0.5s ease;
-}
-
-.temoignage {
-  flex: 1 0 25%;
-  box-sizing: border-box;
-  padding: 10px;
-  text-align: center;
-}
-
-.temoignage img {
-  max-width: 100%;
-  height: auto;
+  width: 100%;
 }
 
 .carousel-controls {
   text-align: center;
-  margin: 10px;
+  margin-top: 20px;
 }
 
 .carousel-controls button {
+  background-color: #ccbb61;
+  color: #000;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
   margin: 0 5px;
 }
 
-.preview-container {
-  margin-bottom: 20px;
+.carousel-controls button:hover {
+  background-color: #b3a44d;
 }
 
-.preview-item {
-  margin: 10px 0;
+.avis-brouillon {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
 }
+.photo-container img {
+  max-width: 100px;
+}
+.btn-validate {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn-validate:hover {
+  background-color: #218838;
+}
+.btn-validate:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.review-section {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.review-invitation {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ccbb61;
+  margin-bottom: 10px;
+}
+
+.review-subtext {
+  font-size: 1.2em;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.review-title h2 {
+  text-align: center;
+  font-size: 2em;
+  color: #ccbb61;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+.review-title {
+  width: 100%;
+}
+.open-review-btn {
+  background-color: #ccbb61;
+  color: #000;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.open-review-btn:hover {
+  background-color: #b3a44d;
+}
+
+.review-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #111; /* Arrière-plan sombre pour correspondre au style général */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  color: #ccbb61; /* Texte de couleur similaire à celle utilisée ailleurs */
+}
+
+.review-form h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ccbb61; /* Couleur du texte similaire au reste du site */
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #ccbb61; /* Assurez la cohérence des couleurs */
+}
+
+.form-group input[type="text"], .form-group textarea, .form-group input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccbb61;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background-color: #222;
+  color: #fff;
+}
+.form-group textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #ccbb61; /* Couleur du bouton correspondant à celle utilisée ailleurs */
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #b3a44d; /* Léger changement de couleur au survol */
+}
+
+/* Styles de la modale */
+.modal {
+  display: none; /* Cachée par défaut */
+  position: fixed; /* Positionnement fixe */
+  z-index: 1000; /* Au-dessus de tout le reste */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Permet de scroller si le contenu est trop grand */
+  background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+}
+
+.modal-content {
+  background-color: #111;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #ccbb61;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #ccbb61; /* Même couleur que le reste des éléments */
+  text-decoration: none;
+  cursor: pointer;
+}
+/* Réduire la taille globale du calendrier */
+#calendar {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #111;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border: 2px solid #ccbb61;
+}
+
+/* Réduire la taille du titre du mois */
+.fc-toolbar-title {
+  font-size: 1.2em; /* Taille de la police du titre */
+  color: #ccbb61; /* Couleur du titre */
+}
+
+/* Réduire la taille des jours de la semaine */
+/* Modifier l'apparence des jours de la semaine dans le calendrier */
+.fc-col-header-cell {
+  background-color: #ccbb61; /* Fond doré */
+  color: #000; /* Texte noir */
+  font-weight: bold;
+}
+
+
+/* Réduire la taille des numéros de jours */
+.fc-daygrid-day-number {
+  font-size: 0.8em; /* Taille de la police des numéros de jours */
+  color: #fff; /* Couleur des numéros de jours */
+}
+
+/* Réduire la hauteur des cellules */
+.fc-daygrid-day {
+  height: 40px; /* Hauteur des cellules du calendrier */
+}
+
+/* Ajuster la taille des événements */
+.fc-daygrid-event {
+  background-color: #ccbb61; /* Couleur des événements */
+  color: #000; /* Couleur du texte des événements */
+  border: none;
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-size: 0.7em; /* Taille de la police des événements */
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -589,8 +810,6 @@ h3 {
       margin: 40px 0 20px 0;
   }
 }
-
-
 /* Responsive */
 @media (max-width: 768px) {
   .temoignages {
@@ -787,6 +1006,9 @@ a[href^="tel"] {
   color: inherit; 
   text-decoration: none; 
 }
+
+
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   header .container {
