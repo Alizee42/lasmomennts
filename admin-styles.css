@@ -427,7 +427,7 @@ h2 {
 }
 @media (max-width: 480px) {
     .admin-block h2 {
-        font-size: 1.4em !important;
+        font-size: 13px !important;
       }
       .admin-block {
         width: 48%;    
