@@ -1,26 +1,25 @@
+import { getDocs, collection } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 import { db } from './firebase-config.js';
-import { collection, query, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     var calendarEl = document.getElementById('calendar');
-
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        events: async function(fetchInfo, successCallback, failureCallback) {
-            const q = query(collection(db, 'disponibilites'));
-            const snapshot = await getDocs(q);
-            let events = [];
-            snapshot.forEach(doc => {
-                let event = doc.data();
-                event.id = doc.id;
-                events.push(event);
-            });
-            successCallback(events);
+        locale: 'fr',  // Utiliser la locale française
+        buttonText: {
+            today: "Aujourd'hui"  // Personnaliser le texte pour "Today"
         },
-        // Désactiver l'édition des événements
-        editable: false,
-        selectable: false
     });
-
     calendar.render();
+
+    const querySnapshot = await getDocs(collection(db, "disponibilités"));
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        calendar.addEvent({
+            title: data.statut === "réservé" ? "Réservé" : "Disponible",
+            start: data.date,
+            allDay: true,
+            color: data.statut === "réservé" ? 'red' : 'green'
+        });
+    });
 });

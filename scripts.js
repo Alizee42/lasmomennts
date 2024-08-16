@@ -95,6 +95,18 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 snapshot.forEach(doc => {
                     const review = doc.data();
+                
+                    // Ajouter la phrase accrocheuse une seule fois si ce n'est pas déjà fait
+                    if (!document.getElementById('phrase-accrocheuse')) {
+                        const accrocheContainer = document.createElement('div');
+                        accrocheContainer.id = 'phrase-accrocheuse';
+                        accrocheContainer.innerHTML = `
+                            <h2>"Ils ont capturé des moments magiques, découvrez leurs avis !"</h2>
+                        `;
+                        const temoignagesSection = document.getElementById('temoignages-container');
+                        temoignagesSection.insertBefore(accrocheContainer, temoignagesSection.firstChild);
+                    }
+                
                     const newAvis = document.createElement('div');
                     newAvis.classList.add('temoignage');
                     newAvis.innerHTML = `
@@ -110,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p>${review.name} ${review.prenom}</p>
                         </div>
                     `;
+    
                     temoignagesList.appendChild(newAvis);
                 });
             }

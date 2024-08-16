@@ -4,23 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration - Gestion des Disponibilités</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
-    <script type="module" src="disponibilites.js"></script>
+    <link rel="stylesheet" href="admin-styles.css">
 </head>
 <body>
+    <!-- Barre de navigation -->
     <header>
+        <nav>
+            <div class="menu-container">
+                <ul class="menu">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li class="menu-dropdown">
+                        <a href="index-admin.html">Administration</a>
+                        <ul class="dropdown-content">
+                            <li><a href="admin.html">Gestion des Avis</a></li>
+                            <li><a href="gestion-disponibilites.html">Gestion des Disponibilités</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
         <h1>Gestion des Disponibilités</h1>
     </header>
     <main>
         <section id="availability-section">
-            <h2>Calendrier des Disponibilités</h2>
-            <div id="calendar-container">
-                <div id='calendar'></div>
-            </div>
-            <button id="add-availability-btn">Ajouter une disponibilité</button>
+            <h2>Ajouter une Disponibilité</h2>
+            <form id="availability-form">
+                <label for="date">Date :</label>
+                <input type="date" id="date" name="date" required>
+                <label for="timeSlot">Créneau horaire :</label>
+                <input type="text" id="time-slot" name="timeSlot" placeholder="ex: 10:00 - 12:00" required>
+                <button type="submit">Ajouter Disponibilité</button>
+            </form>
+        </section>
+        <section id="availability-list">
+            <h2>Disponibilités Existantes</h2>
+            <table id="availability-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Créneau Horaire</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Les disponibilités seront insérées ici via JavaScript -->
+                </tbody>
+            </table>
         </section>
     </main>
+    <script type="module" src="disponibilites.js"></script>
 </body>
 </html>

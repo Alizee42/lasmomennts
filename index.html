@@ -12,6 +12,7 @@
     <script type="module" src="firebase-config.js"></script>
     <script type="module" src="scripts.js"></script>
     <script type="module" src="calendar-view.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/fr.js"></script>
 </head>
 </head>
 <body>
@@ -25,15 +26,21 @@
             <img src="./img/image003-modified-removebg-preview.png" alt="Logo" class="logo">
             <nav>
                 <ul>
-                    <li><a href="index.html">Accueil</a></li> <!-- Lien vers la page d'accueil -->
-                <li><a href="#details">Nos Prestations</a></li>
-                <li><a href="#tarifs">Nos Tarifs</a></li>
-                <li><a href="#exemples">Galerie</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="login.html">Connexion</a></li>
+                    <li><a href="index.html">Accueil</a></li> <!-- Lien direct vers l'accueil -->
+                    <li class="menu-dropdown">
+                        <a href="#">Services <i class="fas fa-caret-down"></i></a>
+                        <ul class="dropdown-content">
+                            <li><a href="#details">Nos Prestations</a></li>
+                            <li><a href="#tarifs">Nos Tarifs</a></li>
+                            <li><a href="#calendrier">Disponibilités</a></li>
+                            <li><a href="#exemples">Galerie</a></li>
+                            <li><a href="#temoignages">Avis </a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="login.html">Connexion</a></li> <!-- Lien direct vers la connexion -->
                 </ul>
             </nav>
-            
         </div>
     </header>
     <main>

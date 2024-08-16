@@ -1,5 +1,3 @@
-/* admin-styles.css */
-
 /* Réinitialisation du CSS pour assurer la cohérence sur tous les navigateurs */
 * {
     margin: 0;
@@ -23,12 +21,171 @@ header {
     border-bottom: 2px solid #ccbb61;
 }
 
-header h1 {
-    font-size: 2em;
+/* Barre de navigation */
+header nav {
+    background-color: #333; 
+    padding: 10px 0;
 }
 
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+header nav ul li {
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    color: #ccbb61; 
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: #fff; 
+}
+/* Icône du menu pour les petits écrans */
+.menu-icon {
+    display: none;
+    cursor: pointer;
+}
+
+.menu-icon span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px;
+    background-color: #ccbb61;
+    transition: 0.3s;
+}
+
+/* Styles du menu principal */
+.menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    position: relative;
+}
+
+.menu li a {
+    color: #ccbb61;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: color 0.3s ease;
+    border-radius: 5px;
+}
+
+.menu li a:hover {
+    color: #000;
+    background-color: #ccbb61;
+}
+
+/* Sous-menu */
+.menu-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.menu-dropdown:hover .dropdown-content {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-content li {
+    width: 125%;
+}
+
+.dropdown-content li a {
+    padding: 12px 20px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #444;
+}
+
+.dropdown-content li a:hover {
+    background-color: #ccbb61;
+    color: #000;
+}
+
+.dropdown-content li:last-child a {
+    border-bottom: none;
+}
+
+/* Responsive Styles */
+
+/* Titre principal */
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-top: 20px;
+    color: #ccbb61; 
+}
+
+/* Section administration */
+.admin-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 20px;
+}
+
+.admin-block {
+    background-color: #222; 
+    border: 1px solid #ccbb61; 
+    border-radius: 10px;
+    padding: 40px; 
+    width: 55%;
+    margin: 20px 0; 
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    text-align: center; 
+}
+
+.admin-block h2 {
+    color: #ccbb61; 
+    margin-bottom: 20px; 
+    font-size: 1.8em; 
+}
+
+.admin-block p {
+    color: #ccc; 
+    font-size: 1.1em; 
+}
+
+.admin-block:hover {
+    transform: scale(1.05); 
+    background-color: #333; 
+}
+
+/* Conteneur principal */
 main {
-    max-width: 800px;
+    max-width: 1000px; 
     margin: 0 auto;
     padding: 20px;
     background: #222;
@@ -36,48 +193,20 @@ main {
     border-radius: 8px;
 }
 
+/* Ajustements de la taille des titres */
 h2 {
     text-align: center;
     margin-bottom: 20px;
-    font-size: 1.5em;
+    font-size: 2em; 
     color: #ccbb61;
 }
-.admin-section {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-}
 
-.admin-block {
-    background-color: #111;
-    border: 1px solid #ccbb61;
-    border-radius: 8px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    flex: 1;
-}
-
-.admin-block h2 {
-    color: #ccbb61;
-    margin-bottom: 10px;
-}
-
-.admin-block p {
-    color: #bbb;
-}
-
-.admin-block:hover {
-    background-color: #fff;
-}
+/* Bloc de révision */
 .reviews-container {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
-
-/* admin-styles.css */
 
 .review-item {
     background: #111;
@@ -94,6 +223,7 @@ h2 {
     align-items: center;
     margin-bottom: 15px;
 }
+
 .review-header:hover {
     background-color: #ccbb61; /* Or */
     color: #000; /* Noir */
@@ -102,8 +232,9 @@ h2 {
 
 .review-header:hover h3,
 .review-header:hover p {
-    color: #000; /* Change the text color to black */
+    color: #000;
 }
+
 .review-header h3 {
     font-size: 1.5em;
     color: #ccbb61;
@@ -158,3 +289,147 @@ h2 {
     background-color: #dc3545;
     color: #fff;
 }
+
+/* Styles pour la section des formulaires */
+#availability-section {
+    padding: 20px;
+    background-color: #111; 
+    border-radius: 10px;
+    margin: 20px;
+}
+
+#availability-section h2 {
+    color: #ccbb61; 
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+#availability-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#availability-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#availability-form input[type="date"],
+#availability-form input[type="text"],
+#availability-form button {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+}
+
+#availability-form input[type="date"],
+#availability-form input[type="text"] {
+    background-color: #222;
+    color: #fff;
+    font-size: 1em;
+}
+
+#availability-form button {
+    background-color: #ccbb61;
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#availability-form button:hover {
+    background-color: #b3a44d;
+}
+
+/* Styles pour la section des disponibilités */
+#availability-list {
+    padding: 20px;
+    background-color: #111;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+#availability-list h2 {
+    color: #ccbb61;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+#availability-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #222;
+}
+
+#availability-table th,
+#availability-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+#availability-table th {
+    background-color: #333;
+    color: #ccbb61;
+    font-weight: bold;
+}
+
+#availability-table td {
+    background-color: #222;
+    color: #fff;
+}
+
+/* Styles des boutons dans le tableau */
+#availability-table button {
+    background-color: #ccbb61;
+    color: #000;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#availability-table button:hover {
+    background-color: #b3a44d;
+}
+
+/* Styles des boutons "Réserver" */
+#availability-table .reserve-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#availability-table .reserve-btn:hover {
+    background-color: #45a049; 
+}
+
+/* Styles des boutons "Supprimer" */
+#availability-table .delete-btn {
+    background-color: #f44336; 
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#availability-table .delete-btn:hover {
+    background-color: #e53935; 
+}
+@media (max-width: 480px) {
+    .admin-block h2 {
+        font-size: 1.4em !important;
+      }
+      .admin-block {
+        width: 48%;    
+      }
+  }
