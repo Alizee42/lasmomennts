@@ -425,6 +425,58 @@ h2 {
 #availability-table .delete-btn:hover {
     background-color: #e53935; 
 }
+/* Style général du sélecteur */
+#month-select {
+    width: 250px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #DAA520; /* Couleur or */
+    border-radius: 5px;
+    background-color: #333; /* Noir */
+    color: #fff; /* Texte blanc */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    appearance: none; /* Masquer la flèche par défaut */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('arrow-down-icon-gold.png'); /* Icône flèche dorée personnalisée */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 15px;
+    margin-bottom: 22px;
+}
+
+/* Style de l'optgroup */
+optgroup {
+    font-weight: bold;
+    color: #DAA520; /* Or pour les labels */
+}
+
+/* Style des options */
+#month-select option {
+    background-color: #333; /* Fond noir pour les options */
+    color: #fff; /* Texte blanc pour les options */
+}
+
+/* Effet au survol */
+#month-select:hover {
+    border-color: #FFD700; /* Couleur or plus brillante */
+    background-color: #444; /* Légèrement plus clair */
+    cursor: pointer;
+}
+
+/* Effet quand on sélectionne le sélecteur */
+#month-select:focus {
+    outline: none;
+    border-color: #FFD700;
+    box-shadow: 0 0 5px rgba(218, 165, 32, 0.5); /* Ombre dorée */
+}
+
+/* Flèche personnalisée au survol */
+#month-select:hover::after {
+    background-image: url('arrow-down-icon-hover-gold.png'); /* Icône flèche or au survol */
+}
+
+
 @media (max-width: 480px) {
     .admin-block h2 {
         font-size: 13px !important;

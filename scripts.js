@@ -89,30 +89,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const q = query(collection(db, 'reviews'), where('approved', '==', true), orderBy('createdAt', 'desc'));
         onSnapshot(q, (snapshot) => {
             temoignagesList.innerHTML = ''; // Réinitialiser l'affichage
-    
+        
             if (snapshot.empty) {
                 console.log("Aucun avis approuvé trouvé.");
             } else {
                 snapshot.forEach(doc => {
                     const review = doc.data();
-                
-                    // Ajouter la phrase accrocheuse une seule fois si ce n'est pas déjà fait
-                    if (!document.getElementById('phrase-accrocheuse')) {
-                        const accrocheContainer = document.createElement('div');
-                        accrocheContainer.id = 'phrase-accrocheuse';
-                        accrocheContainer.innerHTML = `
-                            <h2>"Ils ont capturé des moments magiques, découvrez leurs avis !"</h2>
-                        `;
-                        const temoignagesSection = document.getElementById('temoignages-container');
-                        temoignagesSection.insertBefore(accrocheContainer, temoignagesSection.firstChild);
-                    }
-                
+        
+                    // Créer un nouvel élément pour l'avis
                     const newAvis = document.createElement('div');
                     newAvis.classList.add('temoignage');
-                    newAvis.innerHTML = `
-                        <div class="photo-container">
-                            <img src="${review.imageUrl}" alt="Photo" class="temoignage-photo">
-                        </div>
+        
+                    // Initialiser le contenu de l'avis
+                    let contenuAvis = `
                         <div class="temoignage-message">
                             <span class="quote-icon">“</span>
                             <p class="message-texte">${review.message}</p>
@@ -122,13 +111,26 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p>${review.name} ${review.prenom}</p>
                         </div>
                     `;
-    
+        
+                    // Ajouter la photo seulement si l'URL de l'image est valide
+                    if (review.imageUrl && review.imageUrl.trim() !== "") {
+                        contenuAvis = `
+                            <div class="photo-container">
+                                <img src="${review.imageUrl}" alt="Photo" class="temoignage-photo">
+                            </div>
+                            ${contenuAvis}
+                        `;
+                    }
+        
+                    // Appliquer le contenu au nouvel avis
+                    newAvis.innerHTML = contenuAvis;
                     temoignagesList.appendChild(newAvis);
                 });
             }
         }, error => {
             console.error("Erreur lors de la récupération des avis approuvés:", error);
-        });
+        });      
+        
     }
     // Gestion de la musique de fond
     function toggleMusic() {
