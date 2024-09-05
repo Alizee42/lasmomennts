@@ -116,15 +116,10 @@ header nav ul li a:hover {
     transform: translateY(0);
 }
 
-.dropdown-content li {
-    width: 125%;
-}
-
 .dropdown-content li a {
     padding: 12px 20px;
     color: #fff;
-    display: flex;
-    align-items: center;
+    display: block;
     border-bottom: 1px solid #444;
 }
 
