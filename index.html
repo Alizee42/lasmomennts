@@ -7,8 +7,12 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
 
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
     <script type="module" src="firebase-config.js"></script>
     <script type="module" src="scripts.js"></script>
     <script type="module" src="calendar-view.js"></script>
@@ -160,32 +164,13 @@
 <section id="exemples" class="section-border">
     <div class="container">
         <h2>Galerie</h2>
-        <div class="videos">
-            <div class="video-wrapper">
-                <video controls poster="./img/image1.png">
-                    <source src="./img/20240620_215406390.MP4" type="video/mp4">
-                    Votre navigateur ne supporte pas la balise vidéo.
-                </video>
-            </div>
-            <div class="video-wrapper">
-                <video controls poster="./img/image2.png">
-                    <source src="./img/20240606_220035657.mp4" type="video/mp4">
-                    Votre navigateur ne supporte pas la balise vidéo.
-                </video>
-            </div>
-            <div class="video-wrapper">
-                <video controls poster="./img/image3.png">
-                    <source src="./img/20240706_234602909.mp4" type="video/mp4">
-                    Votre navigateur ne supporte pas la balise vidéo.
-                </video>
-            </div>
-            <div class="video-wrapper">
-                <video controls poster="./img/image4.png">
-                    <source src="./img/20240707_000707168.mp4" type="video/mp4">
-                    Votre navigateur ne supporte pas la balise vidéo.
-                </video>
-            </div>
+        <div class="video-grid" id="video-container">
+            <!-- Les vidéos seront ajoutées ici dynamiquement -->
         </div>
+    </div>
+</section>
+
+
     </div>
 </section>
 <section id="temoignages" class="section-border">
@@ -287,6 +272,7 @@
             <i id="music-icon" class="fas fa-play"></i>
         </button>
     </div>
+    
  <!-- Scripts -->
  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

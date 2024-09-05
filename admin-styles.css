@@ -475,6 +475,126 @@ optgroup {
 #month-select:hover::after {
     background-image: url('arrow-down-icon-hover-gold.png'); /* Icône flèche or au survol */
 }
+/* CSS pour le formulaire */
+#video-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid #ccbb61; /* Bordure dorée pour correspondre au thème */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Ombre plus prononcée pour ressortir */
+    background-color: #333; /* Fond sombre pour cohérence avec le reste du site */
+}
+
+#video-form label {
+    font-weight: bold;
+    color: #ccbb61; /* Couleur dorée pour les labels */
+}
+
+#video-form input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #444; /* Bordure sombre pour les champs de fichier */
+    border-radius: 4px;
+    background-color: #222; /* Fond encore plus sombre pour les champs de fichier */
+    color: #fff; /* Texte blanc pour les champs de fichier */
+}
+
+#video-form button {
+    background-color: #ccbb61; /* Couleur dorée pour les boutons */
+    color: #000; /* Texte noir pour les boutons */
+    border: none;
+    padding: 8px 12px; /* Réduit la taille du bouton */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px; /* Réduit la taille de la police */
+    transition: background-color 0.3s ease;
+    margin: 10px auto; /* Centre le bouton */
+    display: block; /* Assure que le bouton est en bloc pour centrer */
+}
+
+#video-form button:hover {
+    background-color: #b3a44d; /* Couleur dorée plus foncée au survol */
+}
+
+/* CSS pour le tableau */
+#video-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+#video-table th, #video-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ccbb61; /* Bordure dorée */
+}
+
+#video-table th {
+    background-color: #ccbb61; /* En-tête doré */
+    color: white;
+}
+
+
+
+#video-table button {
+    background-color: red; /* Couleur dorée pour les boutons */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/* CSS pour les vidéos dans le tableau */
+#video-table video {
+    max-width: 300px; /* Largeur maximale de la vidéo */
+    max-height: 200px; /* Hauteur maximale de la vidéo */
+    width: auto; /* Largeur automatique pour conserver les proportions */
+    height: auto; /* Hauteur automatique pour conserver les proportions */
+}
+
+#video-table button:hover {
+    background-color: rgb(236, 79, 79); /* Couleur dorée plus foncée au survol */
+}
+/* CSS pour le formulaire */
+.form-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #d4af37; /* Bordure dorée */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+h2 {
+    text-align: center;
+    color: #d4af37; /* Couleur dorée pour le titre */
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+
+
+button:hover {
+    background-color: #b89b2e; /* Couleur dorée plus foncée au survol */
+}
 
 
 @media (max-width: 480px) {

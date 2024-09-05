@@ -1041,6 +1041,25 @@ h3 {
   height: auto;
   display: block;
 }
+/* styles.css */
+.video-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px; /* Espacement entre les vidéos */
+  justify-content: center; /* Centrer les vidéos */
+}
+
+.video-item {
+  flex: 1 1 calc(33.333% - 30px); /* Trois vidéos par ligne, ajuster selon besoin */
+  max-width: 300px; /* Largeur maximale des vidéos */
+  box-sizing: border-box;
+}
+
+.video-item video {
+  width: 100%;
+  height: auto; /* Maintenir les proportions */
+}
+
 
 @keyframes bounceIn {
   from {

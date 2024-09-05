@@ -1,7 +1,9 @@
-import { getFirestore, collection, query, where, getDocs, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { getFirestore, collection, query, where, getDocs, updateDoc, doc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
 import { app } from "./firebase-config.js";
 
 const db = getFirestore(app);
+const storage = getStorage(app);
 
 // Charger et afficher les avis non validés
 export async function loadPendingReviews() {
@@ -90,3 +92,5 @@ export async function deleteEvent(eventId, calendar) {
         console.error("Erreur lors de la suppression de l'événement:", error);
     }
 }
+
+

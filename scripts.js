@@ -1,6 +1,7 @@
 import { db, storage } from './firebase-config.js';
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js";
-import { collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { collection, addDoc, query, where, orderBy, onSnapshot, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
 
 document.addEventListener('DOMContentLoaded', function() {
    
@@ -183,4 +184,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Exposer la fonction toggleModal au global pour être utilisée dans le HTML
     window.toggleModal = toggleModal;
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const videoContainer = document.getElementById('video-container');
+
+    // Écouter les changements en temps réel dans la collection de vidéos
+    const videoCollection = collection(db, 'videos');
+    onSnapshot(videoCollection, async (snapshot) => {
+        videoContainer.innerHTML = ''; // Réinitialiser le contenu du conteneur
+
+        snapshot.forEach(async (docSnapshot) => {
+            const videoData = docSnapshot.data();
+            const videoUrl = await getDownloadURL(ref(storage, videoData.url));
+
+            const videoItem = document.createElement('div');
+            videoItem.className = 'video-item';
+
+            const videoElement = document.createElement('video');
+            videoElement.src = videoUrl;
+            videoElement.controls = true;
+            videoElement.style.width = '100%'; // Ajuster la taille du lecteur vidéo
+
+            videoItem.appendChild(videoElement);
+            videoContainer.appendChild(videoItem);
+        });
+    }, error => {
+        console.error('Erreur lors de la récupération des vidéos:', error);
+    });
 });

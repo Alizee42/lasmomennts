@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Vidéos</title>
+    <link rel="stylesheet" href="./admin-styles.css">
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="gestion-videos.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Retour à l'accueil</a></li>
+                <li><a href="gestion-videos.html">Gestion des Vidéos</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Gestion des Vidéos</h1>
+        <div class="form-container">
+            <h2>Ajouter une Vidéo</h2>
+            <form id="video-form">
+                <div class="form-group">
+                    <label for="video-file">Choisir un fichier vidéo :</label>
+                    <input type="file" id="video-file" name="video-file" accept="video/*" required>
+                </div>
+                <button type="submit">Télécharger</button>
+            </form>
+        </div>
+        <table id="video-table">
+            <thead>
+                <tr>
+                    <th>Vidéo</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Les vidéos seront ajoutées ici -->
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
