@@ -591,6 +591,28 @@ button:hover {
     background-color: #b89b2e; /* Couleur dorée plus foncée au survol */
 }
 
+/* Style pour le menu déroulant */
+select {
+    width: 100%; /* S'assure que le menu utilise toute la largeur disponible */
+    padding: 10px; /* Ajoute du padding pour un meilleur espacement */
+    border: 1px solid #ccc; /* Bordure légère */
+    border-radius: 4px; /* Coins arrondis pour un look moderne */
+    font-size: 16px; /* Taille de la police pour une meilleure lisibilité */
+    background-color: #fff; /* Couleur de fond blanche */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère pour un effet de profondeur */
+    cursor: pointer; /* Change le curseur au survol pour indiquer que c'est interactif */
+}
+
+/* Style pour les options du menu déroulant */
+select option {
+    padding: 10px; /* Ajoute du padding pour un meilleur espacement des options */
+}
+
+/* Style pour le champ de formulaire du créneau horaire */
+#availability-form select {
+    margin-top: 10px; /* Espacement au-dessus du menu déroulant */
+    margin-bottom: 20px; /* Espacement en-dessous du menu déroulant */
+}
 
 @media (max-width: 480px) {
     .admin-block h2 {

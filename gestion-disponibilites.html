@@ -34,44 +34,48 @@
                 <label for="date">Date :</label>
                 <input type="date" id="date" name="date" required>
                 <label for="timeSlot">Créneau horaire :</label>
-                <input type="text" id="time-slot" name="timeSlot" placeholder="ex: 10:00 - 12:00" required>
+                <select id="time-slot" name="timeSlot" required>
+                    <option value="matin">Matin</option>
+                    <option value="midi">Midi</option>
+                    <option value="Toutel la journée">Toute la journée</option>
+                </select>
                 <button type="submit">Ajouter Disponibilité</button>
             </form>
         </section>
         <section id="availability-list">
             <h2>Disponibilités Existantes</h2>
             <label for="month-select">Sélectionner le mois :</label>
-<select id="month-select">
-    <optgroup label="2024">
-        <option value="2024-0">Janvier 2024</option>
-        <option value="2024-1">Février 2024</option>
-        <option value="2024-2">Mars 2024</option>
-        <option value="2024-3">Avril 2024</option>
-        <option value="2024-4">Mai 2024</option>
-        <option value="2024-5">Juin 2024</option>
-        <option value="2024-6">Juillet 2024</option>
-        <option value="2024-7">Août 2024</option>
-        <option value="2024-8">Septembre 2024</option>
-        <option value="2024-9">Octobre 2024</option>
-        <option value="2024-10">Novembre 2024</option>
-        <option value="2024-11">Décembre 2024</option>
-    </optgroup>
-    
-    <optgroup label="2025">
-        <option value="2025-0">Janvier 2025</option>
-        <option value="2025-1">Février 2025</option>
-        <option value="2025-2">Mars 2025</option>
-        <option value="2025-3">Avril 2025</option>
-        <option value="2025-4">Mai 2025</option>
-        <option value="2025-5">Juin 2025</option>
-        <option value="2025-6">Juillet 2025</option>
-        <option value="2025-7">Août 2025</option>
-        <option value="2025-8">Septembre 2025</option>
-        <option value="2025-9">Octobre 2025</option>
-        <option value="2025-10">Novembre 2025</option>
-        <option value="2025-11">Décembre 2025</option>
-    </optgroup>
-</select>
+            <select id="month-select">
+                <optgroup label="2024">
+                    <option value="2024-0">Janvier 2024</option>
+                    <option value="2024-1">Février 2024</option>
+                    <option value="2024-2">Mars 2024</option>
+                    <option value="2024-3">Avril 2024</option>
+                    <option value="2024-4">Mai 2024</option>
+                    <option value="2024-5">Juin 2024</option>
+                    <option value="2024-6">Juillet 2024</option>
+                    <option value="2024-7">Août 2024</option>
+                    <option value="2024-8">Septembre 2024</option>
+                    <option value="2024-9">Octobre 2024</option>
+                    <option value="2024-10">Novembre 2024</option>
+                    <option value="2024-11">Décembre 2024</option>
+                </optgroup>
+                
+                <optgroup label="2025">
+                    <option value="2025-0">Janvier 2025</option>
+                    <option value="2025-1">Février 2025</option>
+                    <option value="2025-2">Mars 2025</option>
+                    <option value="2025-3">Avril 2025</option>
+                    <option value="2025-4">Mai 2025</option>
+                    <option value="2025-5">Juin 2025</option>
+                    <option value="2025-6">Juillet 2025</option>
+                    <option value="2025-7">Août 2025</option>
+                    <option value="2025-8">Septembre 2025</option>
+                    <option value="2025-9">Octobre 2025</option>
+                    <option value="2025-10">Novembre 2025</option>
+                    <option value="2025-11">Décembre 2025</option>
+                </optgroup>
+            </select>
 
             <table id="availability-table">
                 <thead>
@@ -89,5 +93,6 @@
         </section>
     </main>
     <script type="module" src="disponibilites.js"></script>
+    <script type="module" src="./calendar-view.js"></script>
 </body>
 </html>

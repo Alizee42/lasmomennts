@@ -1,38 +1,47 @@
-import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, Timestamp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, Timestamp, onSnapshot } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 import { db } from './firebase-config.js';
 
-// Fonction pour ajouter tous les week-ends d'une année donnée
-async function addYearWeekends(year) {
-    const weekends = [];
+// Fonction pour ajouter tous les jours d'une année donnée
+async function addYearDates(year, specificDays = []) {
+    const dates = [];
     const startDate = new Date(year, 0, 1); // 1er janvier
     const endDate = new Date(year + 1, 0, 0); // 31 décembre
 
-    // Parcourir chaque jour de l'année
     for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
-        if (date.getDay() === 6 || date.getDay() === 0) { // Samedi ou Dimanche
-            weekends.push(date.toISOString().split('T')[0]); // Format yyyy-mm-dd
+        dates.push(date.toISOString().split('T')[0]); // Format yyyy-mm-dd
+
+        if (specificDays.includes(date.getDay())) { // Par exemple, [1, 5] pour lundis et vendredis
+            dates.push(date.toISOString().split('T')[0]); // Format yyyy-mm-dd
         }
     }
 
-    // Ajouter les week-ends à la base de données si non présents
-    const existingDates = (await getDocs(collection(db, "disponibilités"))).docs.map(doc => doc.data().date);
-    
-    for (const weekend of weekends) {
-        if (!existingDates.includes(weekend)) {
-            await addDoc(collection(db, "disponibilités"), {
-                date: weekend,
-                timeSlot: "Toute la journée",
-                statut: "disponible",
-                createdAt: Timestamp.now()
-            });
+    console.log(`Dates for ${year}:`, dates);
+
+    try {
+        const existingDates = (await getDocs(collection(db, "disponibilités"))).docs.map(doc => doc.data().date);
+        console.log('Existing Dates:', existingDates);
+
+        for (const date of dates) {
+            if (!existingDates.includes(date)) {
+                await addDoc(collection(db, "disponibilités"), {
+                    date: date,
+                    timeSlot: "Toute la journée",
+                    statut: "disponible",
+                    createdAt: Timestamp.now()
+                });
+                console.log(`Added date: ${date}`);
+            }
         }
+    } catch (error) {
+        console.error("Error adding dates:", error);
     }
 }
 
-// Ajouter les week-ends pour les années 2024 et 2025
-async function addWeekendsForYears() {
-    await addYearWeekends(2024);
-    await addYearWeekends(2025);
+// Ajouter les dates pour les années 2024 et 2025
+async function addDatesForYears() {
+    console.log('Adding dates for 2024 and 2025');
+    await addYearDates(2024, [1, 5]); // Ajouter lundis et vendredis
+    await addYearDates(2025, [1, 5]); // Ajouter lundis et vendredis
 }
 
 // Fonction pour formater une date au format JJ/MM/AAAA
@@ -41,47 +50,55 @@ function formatDate(dateString) {
     return `${day}/${month}/${year}`;
 }
 
-// Fonction pour charger les disponibilités par mois
-async function loadAvailabilities(month = new Date().getMonth(), year = new Date().getFullYear()) {
-    await addWeekendsForYears(); // Assurez-vous que les week-ends sont ajoutés
+// Fonction pour charger les disponibilités par mois et année
+function loadAvailabilities(month = new Date().getUTCMonth(), year = new Date().getUTCFullYear()) {
+    const startDate = new Date(Date.UTC(year, month, 1)); // Premier jour du mois
+    const endDate = new Date(Date.UTC(year, month + 1, 0)); // Dernier jour du mois
 
-    // Calculer le début et la fin du mois
-    const startDate = new Date(year, month, 1);
-    const endDate = new Date(year, month + 1, 0);
+    console.log('Chargement des disponibilités de:', startDate.toISOString(), 'à', endDate.toISOString());
 
-    const querySnapshot = await getDocs(collection(db, "disponibilités"));
-    const tableBody = document.querySelector('#availability-table tbody');
-    tableBody.innerHTML = '';  // Vider le tableau avant de le remplir
+    const availabilityCollection = collection(db, "disponibilités");
+    onSnapshot(availabilityCollection, (querySnapshot) => {
+        const tableBody = document.querySelector('#availability-table tbody');
+        tableBody.innerHTML = '';  // Vider le tableau avant de le remplir
 
-    // Convertir les données en tableau et trier par date croissante
-    const availabilities = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }));
+        // Récupérer les disponibilités et les trier par date
+        const availabilities = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
 
-    availabilities.sort((a, b) => new Date(a.date) - new Date(b.date));
+        availabilities.sort((a, b) => a.date.localeCompare(b.date)); // Tri alphabétique des dates
 
-    availabilities.forEach((data) => {
-        const date = new Date(data.date);
+        availabilities.forEach((data) => {
+            const date = new Date(data.date);
 
-        // Vérifier si la date est dans le mois et l'année spécifiés
-        if (date >= startDate && date <= endDate) {
-            const statut = data.statut === "réservé" ? "Réservé" : "Disponible";
+            if (date >= startDate && date <= endDate) {
+                const statut = data.statut === "réservé" ? "Réservé" : "Disponible";
 
-            const row = `
-                <tr>
-                    <td>${formatDate(data.date)}</td>
-                    <td>${data.timeSlot}</td>
-                    <td>${statut}</td>
-                    <td>
-                        ${data.statut === "disponible" ? `<button class="reserve-btn" data-id="${data.id}">Réserver</button>` : ""}
-                        <button class="delete-btn" data-id="${data.id}">Supprimer</button>
-                    </td>
-                </tr>`;
-            tableBody.insertAdjacentHTML('beforeend', row);
-        }
+                const row = `
+                    <tr>
+                        <td>${formatDate(data.date)}</td>
+                        <td>${data.timeSlot}</td>
+                        <td>${statut}</td>
+                        <td>
+                            ${data.statut === "disponible" ? `<button class="reserve-btn" data-id="${data.id}">Réserver</button>` : ""}
+                            <button class="delete-btn" data-id="${data.id}">Supprimer</button>
+                        </td>
+                    </tr>`;
+                tableBody.insertAdjacentHTML('beforeend', row);
+            }
+        });
     });
 }
+
+// Fonction de gestion du changement de mois
+document.getElementById('month-select').addEventListener('change', (e) => {
+    const [year, month] = e.target.value.split('-').map(Number);
+    console.log('Year selected:', year);
+    console.log('Month selected:', month);
+    loadAvailabilities(month, year);
+});
 
 // Événement de soumission du formulaire pour ajouter une disponibilité
 document.getElementById('availability-form').addEventListener('submit', async (e) => {
@@ -97,7 +114,6 @@ document.getElementById('availability-form').addEventListener('submit', async (e
             createdAt: Timestamp.now()
         });
         alert("Disponibilité ajoutée avec succès !");
-        loadAvailabilities(); // Recharger les disponibilités
     } catch (error) {
         console.error("Erreur lors de l'ajout de la disponibilité : ", error);
     }
@@ -116,26 +132,29 @@ document.querySelector('#availability-table tbody').addEventListener('click', as
 });
 
 async function reserveAvailability(id) {
-    const docRef = doc(db, "disponibilités", id);
-    await updateDoc(docRef, {
-        statut: "réservé",
-        updatedAt: Timestamp.now()
-    });
-    alert("Disponibilité réservée !");
-    loadAvailabilities(); // Recharger les disponibilités
+    try {
+        const docRef = doc(db, "disponibilités", id);
+        await updateDoc(docRef, {
+            statut: "réservé",
+            updatedAt: Timestamp.now()
+        });
+        alert("Disponibilité réservée !");
+    } catch (error) {
+        console.error("Erreur lors de la réservation : ", error);
+    }
 }
 
 async function deleteAvailability(id) {
-    await deleteDoc(doc(db, "disponibilités", id));
-    alert("Disponibilité supprimée");
-    loadAvailabilities(); // Recharger les disponibilités
+    try {
+        await deleteDoc(doc(db, "disponibilités", id));
+        alert("Disponibilité supprimée");
+    } catch (error) {
+        console.error("Erreur lors de la suppression : ", error);
+    }
 }
 
-// Fonction pour gérer le changement de mois
-document.getElementById('month-select').addEventListener('change', (e) => {
-    const [year, month] = e.target.value.split('-').map(Number);
-    loadAvailabilities(month, year);
-});
-
 // Charger les disponibilités pour le mois actuel lorsque la page est chargée
-loadAvailabilities();
+document.addEventListener('DOMContentLoaded', () => {
+    const [currentYear, currentMonth] = (new Date().toISOString().split('T')[0]).split('-').map(Number);
+    loadAvailabilities(currentMonth, currentYear);
+});
