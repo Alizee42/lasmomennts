@@ -8,10 +8,11 @@ async function addYearDates(year, specificDays = []) {
     const endDate = new Date(year + 1, 0, 0); // 31 décembre
 
     for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
-        dates.push(date.toISOString().split('T')[0]); // Format yyyy-mm-dd
+        const dateString = date.toISOString().split('T')[0]; // Format yyyy-mm-dd
+        const dayOfWeek = date.getDay();
 
-        if (specificDays.includes(date.getDay())) { // Par exemple, [1, 5] pour lundis et vendredis
-            dates.push(date.toISOString().split('T')[0]); // Format yyyy-mm-dd
+        if (specificDays.includes(dayOfWeek)) {
+            dates.push(dateString);
         }
     }
 
@@ -40,9 +41,10 @@ async function addYearDates(year, specificDays = []) {
 // Ajouter les dates pour les années 2024 et 2025
 async function addDatesForYears() {
     console.log('Adding dates for 2024 and 2025');
-    await addYearDates(2024, [1, 5]); // Ajouter lundis et vendredis
-    await addYearDates(2025, [1, 5]); // Ajouter lundis et vendredis
+    await addYearDates(2024, [0, 6]); // Ajouter seulement les samedis (6) et dimanches (0)
+    await addYearDates(2025, [0, 6]); // Ajouter seulement les samedis (6) et dimanches (0)
 }
+
 
 // Fonction pour formater une date au format JJ/MM/AAAA
 function formatDate(dateString) {
@@ -73,20 +75,27 @@ function loadAvailabilities(month = new Date().getUTCMonth(), year = new Date().
         availabilities.forEach((data) => {
             const date = new Date(data.date);
 
+         
+            // Vérifier que la date est dans la plage demandée
             if (date >= startDate && date <= endDate) {
-                const statut = data.statut === "réservé" ? "Réservé" : "Disponible";
+                const dayOfWeek = date.getDay();
+                
+                // Afficher uniquement les samedis (6) et dimanches (0)
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    const statut = data.statut === "réservé" ? "Réservé" : "Disponible";
 
-                const row = `
-                    <tr>
-                        <td>${formatDate(data.date)}</td>
-                        <td>${data.timeSlot}</td>
-                        <td>${statut}</td>
-                        <td>
-                            ${data.statut === "disponible" ? `<button class="reserve-btn" data-id="${data.id}">Réserver</button>` : ""}
-                            <button class="delete-btn" data-id="${data.id}">Supprimer</button>
-                        </td>
-                    </tr>`;
-                tableBody.insertAdjacentHTML('beforeend', row);
+                    const row = `
+                        <tr>
+                            <td>${formatDate(data.date)}</td>
+                            <td>${data.timeSlot}</td>
+                            <td>${statut}</td>
+                            <td>
+                                ${data.statut === "disponible" ? `<button class="reserve-btn" data-id="${data.id}">Réserver</button>` : ""}
+                                <button class="delete-btn" data-id="${data.id}">Supprimer</button>
+                            </td>
+                        </tr>`;
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                }
             }
         });
     });

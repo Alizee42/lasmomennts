@@ -46,9 +46,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        locale: 'fr',  // Utiliser la locale française
+        locale: 'fr',
         buttonText: {
-            today: "Aujourd'hui"  // Personnaliser le texte pour "Today"
+            today: "Aujourd'hui"
         },
     });
     calendar.render();
@@ -59,16 +59,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         querySnapshot.forEach((docSnapshot) => {
             const data = docSnapshot.data();
-            // Convertir la date en objet Date
             const eventDate = new Date(data.date);
+            const dayOfWeek = eventDate.getDay();
 
-            // Ajouter des événements pour toutes les dates
-            calendar.addEvent({
-                title: data.statut === "réservé" ? "Réservé" : "Disponible",
-                start: data.date,
-                allDay: true,
-                color: data.statut === "réservé" ? 'red' : 'green'
-            });
+            // Ajouter uniquement les samedis et dimanches
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                console.log('Adding event:', data.date, data.statut); // Vérifiez les données
+
+                calendar.addEvent({
+                    title: data.statut === "réservé" ? "Réservé" : "Disponible",
+                    start: data.date,
+                    allDay: true,
+                    color: data.statut === "réservé" ? 'red' : 'green'
+                });
+            }
         });
     });
 });
