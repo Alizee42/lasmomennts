@@ -15,7 +15,7 @@
             <div class="menu-container">
                 <ul class="menu">
                     <li><a href="index.html">Accueil du Site</a></li>
-                    <li><a href="index-admin.html">Accueil Administration</a></li> <!-- Lien vers l'accueil de l'administration -->
+                    <li><a href="index-admin.html">Accueil Administration</a></li>
                     <li class="menu-dropdown">
                         <a href="index-admin.html">Administration</a>
                         <ul class="dropdown-content">
@@ -30,10 +30,9 @@
         <h1>Gestion des Vidéos</h1>
     </header>
     <main>
-        <h1>Gestion des Vidéos</h1>
         <div class="form-container">
             <h2>Ajouter une Vidéo</h2>
-            <form id="video-form">
+            <form id="video-form" enctype="multipart/form-data"> <!-- Ajout de enctype -->
                 <div class="form-group">
                     <label for="video-file">Choisir un fichier vidéo :</label>
                     <input type="file" id="video-file" name="video-file" accept="video/*" required>
@@ -56,4 +55,3 @@
     <script type="module" src="disponibilites.js"></script>
 </body>
 </html>
-

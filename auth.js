@@ -1,25 +1,39 @@
-import { auth, db } from './firebase-config.js';
-import { signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-
 const loginForm = document.getElementById('loginForm');
 
 if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Empêche le rechargement de la page
 
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                // Redirection après connexion réussie
-                window.location.href = 'index-admin.html'; // Assurez-vous que cette URL est correcte
-            })
-            .catch((error) => {
-                console.error("Erreur de connexion:", error.message);
-                document.getElementById('loginError').textContent = "Erreur de connexion: " + error.message;
+        try {
+            // Appel à votre API d'authentification pour se connecter
+            const response = await fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
             });
+
+            if (!response.ok) {
+                // Si la réponse n'est pas OK, récupérez le message d'erreur
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Erreur : ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            // Stockez le token dans le stockage local ou dans un cookie
+            localStorage.setItem('token', data.token);
+
+            // Redirection après connexion réussie
+            window.location.href = 'index-admin.html'; // Assurez-vous que cette URL est correcte
+        } catch (error) {
+            console.error("Erreur de connexion:", error.message);
+            document.getElementById('loginError').textContent = "Erreur de connexion: " + error.message;
+        }
     });
 }
 
@@ -27,10 +41,8 @@ if (loginForm) {
 const logoutButton = document.getElementById('logoutButton');
 if (logoutButton) {
     logoutButton.addEventListener('click', () => {
-        signOut(auth).then(() => {
-            window.location.href = 'login.html';
-        }).catch((error) => {
-            console.error("Erreur lors de la déconnexion:", error);
-        });
+        // Supprimez le token lors de la déconnexion
+        localStorage.removeItem('token');
+        window.location.href = 'login.html'; // Redirection après déconnexion
     });
 }
