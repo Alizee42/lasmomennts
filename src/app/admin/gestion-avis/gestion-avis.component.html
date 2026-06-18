@@ -1,0 +1,67 @@
+<div class="admin-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-header__inner">
+      <div>
+        <p class="page-header__eyebrow">Administration</p>
+        <h1>Avis clients</h1>
+      </div>
+      <div class="filtre-tabs">
+        <button [class.active]="filtre === 'attente'" (click)="filtre = 'attente'">
+          En attente
+          <span class="filtre-tabs__count" *ngIf="enAttente > 0">{{ enAttente }}</span>
+        </button>
+        <button [class.active]="filtre === 'approuves'" (click)="filtre = 'approuves'">Approuvés</button>
+        <button [class.active]="filtre === 'tous'" (click)="filtre = 'tous'">Tous</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste -->
+  <div class="avis-list" *ngIf="avisFiltres.length > 0; else empty">
+    <div class="avis-item" *ngFor="let a of avisFiltres" [class.avis-item--pending]="!a.approuve">
+
+      <div class="avis-item__avatar">
+        <img *ngIf="a.photoUrl" [src]="a.photoUrl | apiUrl" [alt]="a.prenom" />
+        <span *ngIf="!a.photoUrl">{{ a.prenom[0] }}{{ a.nom[0] }}</span>
+      </div>
+
+      <div class="avis-item__body">
+        <div class="avis-item__top">
+          <div>
+            <p class="avis-item__name">{{ a.prenom }} {{ a.nom }}</p>
+            <div class="avis-item__stars">
+              <i class="fas fa-star" *ngFor="let s of getStars(a.note)"></i>
+              <i class="far fa-star" *ngFor="let s of getEmptyStars(a.note)"></i>
+            </div>
+          </div>
+          <span class="badge" [class.badge--green]="a.approuve" [class.badge--orange]="!a.approuve">
+            <i class="fas" [class.fa-check]="a.approuve" [class.fa-clock]="!a.approuve"></i>
+            {{ a.approuve ? 'Approuvé' : 'En attente' }}
+          </span>
+        </div>
+        <p class="avis-item__message">"{{ a.message }}"</p>
+        <p class="avis-item__date"><i class="fas fa-calendar-alt"></i> {{ a.createdAt | date:'dd/MM/yyyy' }}</p>
+      </div>
+
+      <div class="avis-item__actions">
+        <button *ngIf="!a.approuve" class="action-btn action-btn--green" (click)="approuver(a.id)" title="Approuver">
+          <i class="fas fa-check"></i> Approuver
+        </button>
+        <button class="action-btn action-btn--red" (click)="supprimer(a.id)" title="Supprimer">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #empty>
+    <div class="admin-empty">
+      <i class="fas fa-star"></i>
+      <p>Aucun avis dans cette catégorie.</p>
+    </div>
+  </ng-template>
+
+</div>

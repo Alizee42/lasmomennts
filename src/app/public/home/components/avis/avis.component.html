@@ -1,0 +1,123 @@
+<section class="section avis-section" id="avis">
+  <!-- Vague depuis Calendrier -->
+  <div class="wave-top">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 L0,20 C480,80 960,0 1440,40 L1440,0 Z" fill="#FFFFFF"/>
+    </svg>
+  </div>
+
+  <div class="section-title">
+    <h2>Ils nous font <span class="gold">confiance</span></h2>
+    <div class="title-line"></div>
+    <p>Les retours de nos clients</p>
+  </div>
+
+  <!-- Carrousel -->
+  <div class="carousel" *ngIf="avis.length > 0; else noAvis">
+    <button class="carousel__arrow carousel__arrow--prev" (click)="prev()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <div class="carousel__track">
+      <div class="carousel__slide" *ngFor="let a of avis; let i = index"
+           [class.carousel__slide--active]="i === activeIndex">
+        <div class="avis-card">
+          <i class="fas fa-quote-left avis-card__quote"></i>
+          <p class="avis-card__message">{{ a.message }}</p>
+          <div class="avis-card__stars">
+            <i class="fas fa-star" *ngFor="let s of getStars(a.note)"></i>
+            <i class="far fa-star" *ngFor="let s of getEmptyStars(a.note)"></i>
+          </div>
+          <div class="avis-card__author">
+            <div class="avis-card__avatar">
+              <img *ngIf="a.photoUrl" [src]="a.photoUrl | apiUrl" [alt]="a.prenom" />
+              <span *ngIf="!a.photoUrl">{{ a.prenom[0] }}{{ a.nom[0] }}</span>
+            </div>
+            <div>
+              <p class="avis-card__name">{{ a.prenom }} {{ a.nom[0] }}.</p>
+              <p class="avis-card__event">Client Las Moments</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="carousel__arrow carousel__arrow--next" (click)="next()">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+
+    <!-- Dots -->
+    <div class="carousel__dots">
+      <button class="carousel__dot"
+              *ngFor="let a of avis; let i = index"
+              [class.carousel__dot--active]="i === activeIndex"
+              (click)="goTo(i)">
+      </button>
+    </div>
+  </div>
+
+  <ng-template #noAvis>
+    <p class="avis__empty">Soyez le premier à laisser un avis !</p>
+  </ng-template>
+
+  <!-- CTA -->
+  <div class="avis__cta">
+    <p class="avis__success" *ngIf="submitted">
+      <i class="fas fa-check-circle"></i>
+      Merci ! Votre avis sera publié après validation.
+    </p>
+    <button class="btn btn-outline" (click)="openModal()" *ngIf="!submitted">
+      <i class="fas fa-pen"></i>
+      Laisser un avis
+    </button>
+  </div>
+</section>
+
+<!-- Modale avis -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <button class="modal__close" (click)="closeModal()">
+      <i class="fas fa-times"></i>
+    </button>
+    <h3 class="modal__title">Votre <span class="gold">avis</span></h3>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom *</label>
+          <input formControlName="prenom" type="text" placeholder="Votre prénom" />
+        </div>
+        <div class="form-group">
+          <label>Nom *</label>
+          <input formControlName="nom" type="text" placeholder="Votre nom" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Note *</label>
+        <div class="note-stars">
+          <i class="fas fa-star"
+             *ngFor="let n of [1,2,3,4,5]"
+             [class.active]="(form.value.note ?? 0) >= n"
+             (click)="setNote(n)">
+          </i>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Message *</label>
+        <textarea formControlName="message" placeholder="Partagez votre expérience..." rows="4"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Photo (optionnel)</label>
+        <input type="file" accept="image/*" (change)="onPhotoChange($event)" />
+        <img *ngIf="photoPreview" [src]="photoPreview" class="photo-preview" alt="Aperçu" />
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+        <i class="fas fa-paper-plane"></i> Envoyer mon avis
+      </button>
+    </form>
+  </div>
+</div>

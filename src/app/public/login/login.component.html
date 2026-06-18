@@ -1,0 +1,61 @@
+<div class="login-page">
+
+  <!-- Gauche -->
+  <div class="login-left">
+    <div class="login-left__content">
+      <div class="login-left__logo">Las<span>Moments</span></div>
+      <h1>Bienvenue sur votre espace de connexion</h1>
+      <p>Gérez votre site en toute simplicité : disponibilités, avis clients, vidéos et contenu.</p>
+      <div class="login-left__features">
+        <div class="login-left__feature">
+          <i class="fas fa-calendar-check"></i>
+          <span>Disponibilités</span>
+        </div>
+        <div class="login-left__feature">
+          <i class="fas fa-star"></i>
+          <span>Avis clients</span>
+        </div>
+        <div class="login-left__feature">
+          <i class="fas fa-video"></i>
+          <span>Vidéos</span>
+        </div>
+        <div class="login-left__feature">
+          <i class="fas fa-sliders-h"></i>
+          <span>Paramètres</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Droite -->
+  <div class="login-right">
+    <div class="login-right__inner">
+      <h2>Connexion</h2>
+      <p class="login-right__sub">Connectez-vous pour accéder au tableau de bord</p>
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-group">
+          <label>Email</label>
+          <input formControlName="email" type="email" placeholder="votre@email.com" autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input formControlName="password" type="password" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+
+        <p class="login-error" *ngIf="error">
+          <i class="fas fa-exclamation-circle"></i> {{ error }}
+        </p>
+
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || loading">
+          {{ loading ? 'Connexion...' : 'Se connecter' }}
+        </button>
+      </form>
+
+      <a href="/" class="login-back">
+        <i class="fas fa-arrow-left"></i> Retour au site
+      </a>
+    </div>
+  </div>
+
+</div>

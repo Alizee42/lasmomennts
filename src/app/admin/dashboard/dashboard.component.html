@@ -1,0 +1,97 @@
+<div class="dashboard">
+
+  <!-- Bandeau bienvenue -->
+  <div class="dashboard__hero">
+    <div class="dashboard__hero-content">
+      <p class="dashboard__hero-eyebrow">Espace Administration</p>
+      <h1>Tableau de bord <span>Las Moments</span></h1>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="dashboard__stats">
+    <div class="stat-item">
+      <div class="stat-item__icon stat-item__icon--warning"><i class="fas fa-clock"></i></div>
+      <div class="stat-item__body">
+        <span class="stat-item__number">{{ stats.avisEnAttente }}</span>
+        <span class="stat-item__label">Avis en attente</span>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-item__icon stat-item__icon--gold"><i class="fas fa-star"></i></div>
+      <div class="stat-item__body">
+        <span class="stat-item__number">{{ stats.avisTotal }}</span>
+        <span class="stat-item__label">Avis publiés</span>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-item__icon stat-item__icon--blue"><i class="fas fa-calendar-check"></i></div>
+      <div class="stat-item__body">
+        <span class="stat-item__number">{{ stats.prochainesDates }}</span>
+        <span class="stat-item__label">Dates disponibles</span>
+      </div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-item__icon stat-item__icon--violet"><i class="fas fa-video"></i></div>
+      <div class="stat-item__body">
+        <span class="stat-item__number">{{ stats.videos }}</span>
+        <span class="stat-item__label">Vidéos en ligne</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation pages -->
+  <p class="dashboard__section-title">Gestion du site</p>
+  <div class="dashboard__nav-grid">
+
+    <a routerLink="/admin/avis" class="nav-card">
+      <div class="nav-card__icon nav-card__icon--gold">
+        <i class="fas fa-star"></i>
+      </div>
+      <div class="nav-card__body">
+        <p class="nav-card__title">Avis clients</p>
+        <p class="nav-card__desc">Modérer les témoignages</p>
+      </div>
+      <span class="nav-card__alert" *ngIf="stats.avisEnAttente > 0">{{ stats.avisEnAttente }}</span>
+      <i class="fas fa-chevron-right nav-card__arrow"></i>
+    </a>
+
+    <a routerLink="/admin/disponibilites" class="nav-card">
+      <div class="nav-card__icon nav-card__icon--blue">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+      <div class="nav-card__body">
+        <p class="nav-card__title">Disponibilités</p>
+        <p class="nav-card__desc">Gérer le calendrier</p>
+      </div>
+      <i class="fas fa-chevron-right nav-card__arrow"></i>
+    </a>
+
+    <a routerLink="/admin/videos" class="nav-card">
+      <div class="nav-card__icon nav-card__icon--violet">
+        <i class="fas fa-video"></i>
+      </div>
+      <div class="nav-card__body">
+        <p class="nav-card__title">Vidéos galerie</p>
+        <p class="nav-card__desc">Ajouter et organiser</p>
+      </div>
+      <i class="fas fa-chevron-right nav-card__arrow"></i>
+    </a>
+
+    <a routerLink="/admin/parametres" class="nav-card">
+      <div class="nav-card__icon nav-card__icon--rouge">
+        <i class="fas fa-sliders-h"></i>
+      </div>
+      <div class="nav-card__body">
+        <p class="nav-card__title">Paramètres du site</p>
+        <p class="nav-card__desc">Textes, tarifs, images</p>
+      </div>
+      <i class="fas fa-chevron-right nav-card__arrow"></i>
+    </a>
+
+  </div>
+
+</div>

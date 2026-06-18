@@ -1,0 +1,363 @@
+<div class="admin-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-header__inner">
+      <div>
+        <p class="page-header__eyebrow">Administration</p>
+        <h1>Paramètres du site</h1>
+      </div>
+      <button class="save-btn" (click)="submit()">
+        <i class="fas fa-check"></i> Enregistrer
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast succès -->
+  <div class="toast-success" *ngIf="saved">
+    <i class="fas fa-check-circle"></i> Modifications enregistrées !
+  </div>
+
+  <!-- Onglets -->
+  <div class="param-tabs">
+    <button [class.active]="activeTab === 'hero'"     (click)="activeTab = 'hero'">
+      <i class="fas fa-home"></i> Hero
+    </button>
+    <button [class.active]="activeTab === 'about'"    (click)="activeTab = 'about'">
+      <i class="fas fa-user"></i> À propos
+    </button>
+    <button [class.active]="activeTab === 'services'" (click)="activeTab = 'services'">
+      <i class="fas fa-star"></i> Services
+    </button>
+    <button [class.active]="activeTab === 'tarifs'"   (click)="activeTab = 'tarifs'">
+      <i class="fas fa-tag"></i> Tarifs
+    </button>
+    <button [class.active]="activeTab === 'contact'"  (click)="activeTab = 'contact'">
+      <i class="fas fa-envelope"></i> Contact
+    </button>
+  </div>
+
+  <form [formGroup]="form" class="param-body">
+
+    <!-- ── HERO ── -->
+    <ng-container *ngIf="activeTab === 'hero'">
+    <div class="layout-2col">
+      <div class="param-section">
+        <p class="section-label">Vidéo de fond</p>
+        <div class="video-preview" *ngIf="config.hero_video_url">
+          <video [src]="getUrl(config.hero_video_url)" muted loop autoplay playsinline class="video-preview__player"></video>
+          <div class="video-preview__overlay" (click)="heroVideoInput.click()">
+            <i class="fas fa-pencil-alt"></i>
+            <span>Changer la vidéo</span>
+          </div>
+        </div>
+        <div class="drop-zone" *ngIf="!config.hero_video_url" (click)="heroVideoInput.click()">
+          <i class="fas fa-film"></i>
+          <p>Cliquer pour ajouter la vidéo hero</p>
+          <span>MP4 recommandé</span>
+        </div>
+        <input #heroVideoInput type="file" accept="video/*" (change)="uploadFichier('hero_video_url', $event)" hidden />
+      </div>
+      <div class="param-section">
+        <p class="section-label">Textes principaux</p>
+        <div class="fields-grid">
+          <div class="field field--sm">
+            <label>Badge localisation</label>
+            <textarea formControlName="hero_badge" rows="2" placeholder="Lyon & Région ARA"></textarea>
+          </div>
+          <div class="field field--sm">
+            <label>Titre — ligne 1</label>
+            <textarea formControlName="hero_titre_ligne1" rows="2" placeholder="Vos événements"></textarea>
+          </div>
+          <div class="field field--sm">
+            <label>Titre — ligne 2</label>
+            <textarea formControlName="hero_titre_ligne2" rows="2" placeholder="méritent un"></textarea>
+          </div>
+          <div class="field field--sm">
+            <label>Titre — ligne 3 <em>(en doré)</em></label>
+            <textarea formControlName="hero_titre_ligne3" rows="2" placeholder="souvenir unique."></textarea>
+          </div>
+          <div class="field field--sm field--full">
+            <label>Sous-titre</label>
+            <textarea formControlName="hero_sous_titre" rows="2" placeholder="Vidéobooth 360°, Photobooth…"></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+      <div class="param-section stat-section">
+        <p class="section-label">Statistiques (bande du bas)</p>
+        <div class="stats-grid">
+          <div class="stat-pair">
+            <p class="stat-pair__num">Stat 1</p>
+            <div class="stat-pair__row">
+              <div class="field">
+                <label>Nombre</label>
+                <input formControlName="hero_stat1_nombre" type="text" placeholder="100+" />
+              </div>
+              <div class="field">
+                <label>Label</label>
+                <input formControlName="hero_stat1_label" type="text" placeholder="événements" />
+              </div>
+            </div>
+          </div>
+          <div class="stat-pair">
+            <p class="stat-pair__num">Stat 2</p>
+            <div class="stat-pair__row">
+              <div class="field">
+                <label>Nombre</label>
+                <input formControlName="hero_stat2_nombre" type="text" placeholder="5★" />
+              </div>
+              <div class="field">
+                <label>Label</label>
+                <input formControlName="hero_stat2_label" type="text" placeholder="avis clients" />
+              </div>
+            </div>
+          </div>
+          <div class="stat-pair">
+            <p class="stat-pair__num">Stat 3</p>
+            <div class="stat-pair__row">
+              <div class="field">
+                <label>Nombre</label>
+                <input formControlName="hero_stat3_nombre" type="text" placeholder="360°" />
+              </div>
+              <div class="field">
+                <label>Label</label>
+                <input formControlName="hero_stat3_label" type="text" placeholder="vidéobooth" />
+              </div>
+            </div>
+          </div>
+          <div class="stat-pair">
+            <p class="stat-pair__num">Stat 4</p>
+            <div class="stat-pair__row">
+              <div class="field">
+                <label>Nombre</label>
+                <input formControlName="hero_stat4_nombre" type="text" placeholder="Immédiat" />
+              </div>
+              <div class="field">
+                <label>Label</label>
+                <input formControlName="hero_stat4_label" type="text" placeholder="livraison" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- ── À PROPOS ── -->
+    <div *ngIf="activeTab === 'about'" class="layout-3col about-layout">
+      <!-- Col 1 : Photo -->
+      <div class="param-section about-photo-section">
+        <p class="section-label">Photo</p>
+        <div class="drop-zone about-drop" (click)="aboutPhotoInput.click()">
+          <input #aboutPhotoInput type="file" accept="image/*" (change)="uploadFichier('about_photo_url', $event)" hidden />
+          <i class="fas fa-image"></i>
+          <p>Changer la photo</p>
+          <span>JPG, PNG, WebP</span>
+        </div>
+      </div>
+
+      <!-- Col 2 : Textes (occupe 2 colonnes) -->
+      <div class="param-section about-text-section">
+        <p class="section-label">Textes</p>
+        <div class="field" style="margin-bottom:0.9rem">
+          <label>Titre de section</label>
+          <input formControlName="about_titre" type="text" placeholder="À propos de Las Moments" />
+        </div>
+        <div class="field" style="margin-bottom:0.9rem">
+          <label>Signature</label>
+          <input formControlName="about_signature" type="text" placeholder="L'équipe Las Moments" />
+        </div>
+        <div class="field" style="margin-bottom:0.9rem">
+          <label>Localisation</label>
+          <input formControlName="about_location" type="text" placeholder="Lyon & Région ARA" />
+        </div>
+        <div class="field about-textarea-field">
+          <label>Texte de présentation</label>
+          <textarea formControlName="about_text" placeholder="Présentation de Las Moments…"></textarea>
+        </div>
+      </div>
+
+      <!-- Col 3 : Statistiques -->
+      <div class="param-section about-stats-section">
+        <p class="section-label">Statistiques</p>
+        <div class="field">
+          <label>Événements</label>
+          <input formControlName="stats_evenements" type="number" />
+        </div>
+        <div class="field">
+          <label>Clients</label>
+          <input formControlName="stats_clients" type="number" />
+        </div>
+        <div class="field">
+          <label>Années</label>
+          <input formControlName="stats_annees" type="number" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SERVICES ── -->
+    <div *ngIf="activeTab === 'services'" class="layout-3col">
+      <div class="param-section" *ngFor="let s of [1,2,3]">
+        <p class="section-label">Service {{ s }}</p>
+        <div class="drop-zone drop-zone--sm" style="margin-bottom:1rem" (click)="serviceInput(s).click()">
+          <input [id]="'svc'+s" type="file" accept="image/*" (change)="uploadFichier('service'+s+'_image_url', $event)" hidden />
+          <i class="fas fa-image"></i>
+          <p>Image</p>
+          <span>JPG, PNG</span>
+        </div>
+        <div class="field" style="margin-bottom:0.9rem">
+          <label>Titre</label>
+          <input [formControlName]="'service'+s+'_titre'" type="text" />
+        </div>
+        <div class="field">
+          <label>Description</label>
+          <textarea [formControlName]="'service'+s+'_description'" rows="4"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TARIFS ── -->
+    <div *ngIf="activeTab === 'tarifs'">
+
+      <!-- Sélecteur produit -->
+      <div class="tarif-tabs">
+        <button type="button" *ngFor="let t of tarifsConfig"
+                [class.active]="activeTarif === t.key"
+                (click)="activeTarif = t.key">
+          {{ t.label }}
+        </button>
+      </div>
+
+      <ng-container *ngFor="let t of tarifsConfig">
+        <div class="param-section" *ngIf="activeTarif === t.key">
+
+          <!-- Prix -->
+          <p class="section-label">Prix</p>
+          <div class="fields-grid" style="margin-bottom:1.5rem">
+            <div class="field">
+              <label>Classique (€)</label>
+              <input [formControlName]="t.key+'_classique_prix'" type="number" />
+            </div>
+            <div class="field">
+              <label>Premium (€)</label>
+              <input [formControlName]="t.key+'_premium_prix'" type="number" />
+            </div>
+          </div>
+
+          <!-- Accordéon Classique -->
+          <div class="accordion" [class.accordion--open]="openFeatures['classique']">
+            <button type="button" class="accordion__header" (click)="openFeatures['classique'] = !openFeatures['classique']; openFeatures['premium'] = false">
+              <span><i class="fas fa-list-check"></i> Inclus Classique</span>
+              <div class="accordion__right">
+                <span class="feat-count">{{ features[t.key+'_classique_features'].length }} élément{{ features[t.key+'_classique_features'].length !== 1 ? 's' : '' }}</span>
+                <i class="fas fa-chevron-down accordion__arrow"></i>
+              </div>
+            </button>
+            <div class="accordion__body" *ngIf="openFeatures['classique']">
+              <div class="feature-row" *ngFor="let item of features[t.key+'_classique_features']; let i = index; trackBy: trackByIndex">
+                <i class="fas fa-check feature-row__icon"></i>
+                <input [(ngModel)]="features[t.key+'_classique_features'][i]" [ngModelOptions]="{standalone: true}" type="text" placeholder="Ex : 2H d'animation" />
+                <button type="button" class="remove-feature-btn" (click)="removeFeature(t.key+'_classique_features', i)"><i class="fas fa-times"></i></button>
+              </div>
+              <p class="features-empty" *ngIf="features[t.key+'_classique_features'].length === 0">Aucun élément</p>
+              <button type="button" class="add-item-btn" (click)="addFeature(t.key+'_classique_features')">
+                <i class="fas fa-plus"></i> Ajouter un élément
+              </button>
+            </div>
+          </div>
+
+          <!-- Accordéon Premium -->
+          <div class="accordion" [class.accordion--open]="openFeatures['premium']" style="margin-top:0.5rem">
+            <button type="button" class="accordion__header" (click)="openFeatures['premium'] = !openFeatures['premium']; openFeatures['classique'] = false">
+              <span><i class="fas fa-list-check"></i> Inclus Premium</span>
+              <div class="accordion__right">
+                <span class="feat-count">{{ features[t.key+'_premium_features'].length }} élément{{ features[t.key+'_premium_features'].length !== 1 ? 's' : '' }}</span>
+                <i class="fas fa-chevron-down accordion__arrow"></i>
+              </div>
+            </button>
+            <div class="accordion__body" *ngIf="openFeatures['premium']">
+              <div class="feature-row" *ngFor="let item of features[t.key+'_premium_features']; let i = index; trackBy: trackByIndex">
+                <i class="fas fa-check feature-row__icon"></i>
+                <input [(ngModel)]="features[t.key+'_premium_features'][i]" [ngModelOptions]="{standalone: true}" type="text" placeholder="Ex : Animation incluse" />
+                <button type="button" class="remove-feature-btn" (click)="removeFeature(t.key+'_premium_features', i)"><i class="fas fa-times"></i></button>
+              </div>
+              <p class="features-empty" *ngIf="features[t.key+'_premium_features'].length === 0">Aucun élément</p>
+              <button type="button" class="add-item-btn" (click)="addFeature(t.key+'_premium_features')">
+                <i class="fas fa-plus"></i> Ajouter un élément
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- ── CONTACT ── -->
+    <div *ngIf="activeTab === 'contact'" class="layout-2col contact-layout">
+      <!-- Col 1 : Textes (hauteur totale) -->
+      <div class="param-section contact-textes-section">
+        <p class="section-label">Textes de la section</p>
+        <div class="field" style="margin-bottom:0.9rem">
+          <label>Eyebrow (petit texte)</label>
+          <input formControlName="contact_titre" type="text" placeholder="Contactez-nous" />
+        </div>
+        <div class="field" style="margin-bottom:0.9rem">
+          <label>Titre</label>
+          <input formControlName="contact_sous_titre" type="text" placeholder="Parlons de votre événement" />
+        </div>
+        <div class="field contact-desc-field">
+          <label>Description</label>
+          <textarea formControlName="contact_description" placeholder="Mariage, anniversaire…"></textarea>
+        </div>
+        <div class="field" style="margin-bottom:0.9rem">
+          <label>Zone d'intervention</label>
+          <input formControlName="contact_zone" type="text" placeholder="Lyon & Région ARA" />
+        </div>
+        <div class="field">
+          <label>Badge</label>
+          <input formControlName="contact_badge" type="text" placeholder="Réponse sous 24h garantie" />
+        </div>
+      </div>
+
+      <!-- Col 2 : Coordonnées + Réseaux -->
+      <div class="col-left">
+        <div class="param-section">
+          <p class="section-label">Coordonnées</p>
+          <div class="field" style="margin-bottom:0.9rem">
+            <label>Téléphone</label>
+            <div class="input-icon">
+              <i class="fas fa-phone"></i>
+              <input formControlName="contact_telephone" type="text" placeholder="06 00 00 00 00" />
+            </div>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <div class="input-icon">
+              <i class="fas fa-envelope"></i>
+              <input formControlName="contact_email" type="email" placeholder="contact@lasmoments.fr" />
+            </div>
+          </div>
+        </div>
+        <div class="param-section">
+          <p class="section-label">Réseaux sociaux</p>
+          <div class="field" style="margin-bottom:0.9rem">
+            <label><i class="fab fa-instagram"></i> Instagram</label>
+            <input formControlName="instagram_url" type="url" placeholder="https://instagram.com/lasmoments" />
+          </div>
+          <div class="field" style="margin-bottom:0.9rem">
+            <label><i class="fab fa-facebook"></i> Facebook</label>
+            <input formControlName="facebook_url" type="url" placeholder="https://facebook.com/lasmoments" />
+          </div>
+          <div class="field">
+            <label><i class="fab fa-tiktok"></i> TikTok</label>
+            <input formControlName="tiktok_url" type="url" placeholder="https://tiktok.com/@lasmoments" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</div>

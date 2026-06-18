@@ -1,0 +1,94 @@
+.admin-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #F4F6F9;
+}
+
+// ── Topbar ──────────────────────────────────────────
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  background: #1A1D26;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  justify-content: space-between;
+}
+
+.topbar__logo {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  span { color: var(--color-gold); }
+}
+
+.topbar__nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.topbar__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: var(--font-primary);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: all 0.2s;
+
+  i { font-size: 0.8rem; }
+
+  &:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
+  &.active { background: rgba(212,175,106,0.15); color: var(--color-gold); }
+  &--danger:hover { background: rgba(155,35,53,0.2); color: #F87171; }
+}
+
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.topbar__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  font-family: var(--font-primary);
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  color: rgba(255,255,255,0.5);
+  background: transparent;
+
+  i { font-size: 0.8rem; }
+
+  &:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
+
+  &--danger:hover { background: rgba(155,35,53,0.2); color: #F87171; }
+}
+
+// ── Main ────────────────────────────────────────────
+.admin-main {
+  flex: 1;
+  overflow-y: auto;
+}

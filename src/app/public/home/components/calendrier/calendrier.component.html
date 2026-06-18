@@ -1,0 +1,65 @@
+<section class="section-full calendrier-section" id="calendrier">
+  <!-- Vague depuis Galerie -->
+  <div class="wave-top">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 L0,50 C360,0 1080,80 1440,20 L1440,0 Z" fill="#F1F3F5"/>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      <h2>Nos <span class="gold">Disponibilités</span></h2>
+      <div class="title-line"></div>
+      <p>Consultez les dates disponibles pour votre événement</p>
+    </div>
+
+    <div class="cal">
+      <!-- Header navigation -->
+      <div class="cal__header">
+        <button class="cal__nav" (click)="prevMonth()">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <span class="cal__month">{{ monthLabel }}</span>
+        <button class="cal__nav" (click)="nextMonth()">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Jours de la semaine -->
+      <div class="cal__weekdays">
+        <span *ngFor="let j of JOURS">{{ j }}</span>
+      </div>
+
+      <!-- Grille des jours -->
+      <div class="cal__grid">
+        <div *ngFor="let d of days"
+             class="cal__day"
+             [class.cal__day--empty]="d.empty"
+             [class.cal__day--past]="!d.empty && isPast(d.date)"
+             [class.cal__day--today]="!d.empty && isToday(d.date)"
+             [class.cal__day--disponible]="!d.empty && getStatus(d.date) === 'disponible'"
+             [class.cal__day--reserve]="!d.empty && getStatus(d.date) === 'reserve'">
+          <span *ngIf="!d.empty">{{ d.date.getDate() }}</span>
+          <span class="cal__dot" *ngIf="!d.empty && getStatus(d.date)"></span>
+        </div>
+      </div>
+
+      <!-- Légende -->
+      <div class="cal__legend">
+        <div class="cal__legend-item">
+          <span class="cal__dot cal__dot--disponible"></span>
+          Disponible
+        </div>
+        <div class="cal__legend-item">
+          <span class="cal__dot cal__dot--reserve"></span>
+          Réservé
+        </div>
+      </div>
+    </div>
+
+    <p class="calendrier__cta">
+      Une date vous convient ?
+      <a href="#contact" class="link-gold">Contactez-nous pour réserver</a>
+    </p>
+  </div>
+</section>

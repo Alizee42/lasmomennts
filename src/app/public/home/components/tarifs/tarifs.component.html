@@ -1,0 +1,85 @@
+<section class="section-full tarifs-section" id="tarifs">
+  <!-- Vague depuis Services -->
+  <div class="wave-top">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 L0,50 C360,0 1080,80 1440,30 L1440,0 Z" fill="#FFFFFF"/>
+    </svg>
+  </div>
+
+  <div class="section">
+    <div class="section-title">
+      <h2>Nos <span class="gold">Tarifs</span></h2>
+      <div class="title-line"></div>
+      <p>Des formules adaptées à tous vos événements</p>
+    </div>
+
+    <!-- Onglets services -->
+    <div class="tarifs__tabs">
+      <button class="tarifs__tab"
+              *ngFor="let s of services(); let i = index"
+              [class.tarifs__tab--active]="activeService === i"
+              (click)="activeService = i">
+        <i class="fas {{ s.icon }}"></i>
+        {{ s.label }}
+      </button>
+    </div>
+
+    <!-- Cards tarifs -->
+    <div class="tarifs__grid">
+
+      <!-- Classique -->
+      <div class="tarif-card">
+        <p class="tarif-card__label">Classique</p>
+        <div class="tarif-card__price">
+          <span class="price__from">À partir de</span>
+          <span class="price__amount">{{ tarifs().classique.prix }}€</span>
+        </div>
+        <ul class="tarif-card__features">
+          <li *ngFor="let f of getFeatures(tarifs().classique.features)">
+            <i class="fas fa-check"></i>{{ f }}
+          </li>
+        </ul>
+        <a href="#contact" class="btn btn-rouge">Nous contacter</a>
+      </div>
+
+      <!-- Premium -->
+      <div class="tarif-card tarif-card--premium">
+        <div class="tarif-card__badge">Recommandé</div>
+        <p class="tarif-card__label">Premium</p>
+        <div class="tarif-card__price">
+          <span class="price__from">À partir de</span>
+          <span class="price__amount">{{ tarifs().premium.prix }}€</span>
+        </div>
+        <ul class="tarif-card__features">
+          <li *ngFor="let f of getFeatures(tarifs().premium.features)">
+            <i class="fas fa-check"></i>{{ f }}
+          </li>
+        </ul>
+        <a href="#contact" class="btn btn-primary">Nous contacter</a>
+      </div>
+
+      <!-- Sur devis -->
+      <div class="tarif-card tarif-card--devis">
+        <p class="tarif-card__label">Sur mesure</p>
+        <div class="tarif-card__price">
+          <span class="price__from">Tarif</span>
+          <span class="price__amount price__amount--devis">Sur devis</span>
+        </div>
+        <ul class="tarif-card__features">
+          <li><i class="fas fa-check"></i>Heure supplémentaire : 50€</li>
+          <li><i class="fas fa-check"></i>Demandes particulières</li>
+          <li><i class="fas fa-check"></i>Pack multi-services</li>
+          <li><i class="fas fa-check"></i>Événement entreprise</li>
+        </ul>
+        <a href="#contact" class="btn btn-rouge">Nous contacter</a>
+      </div>
+
+    </div>
+
+    <p class="tarifs__note">
+      <i class="fas fa-info-circle"></i>
+      Tarifs variables selon la date, la durée et le lieu. Contactez-nous pour un devis personnalisé.
+    </p>
+  </div>
+
+</section>

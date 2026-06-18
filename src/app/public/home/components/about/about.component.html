@@ -1,0 +1,49 @@
+<section class="about section-full" id="about">
+  <!-- Vague depuis Hero -->
+  <div class="wave-top">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 L0,40 C360,80 1080,0 1440,40 L1440,0 Z" fill="#000000"/>
+    </svg>
+  </div>
+
+  <div class="about__inner">
+
+    <!-- Photo gauche -->
+    <div class="about__photo">
+      <img *ngIf="config.about_photo_url; else photoPlaceholder"
+           [src]="config.about_photo_url | apiUrl"
+           alt="Las Moments" loading="lazy" />
+      <ng-template #photoPlaceholder>
+        <div class="about__photo-placeholder">
+          <i class="fas fa-video"></i>
+        </div>
+      </ng-template>
+      <div class="about__photo-border"></div>
+      <div class="about__photo-badge">
+        <i class="fas fa-map-marker-alt"></i> {{ config.about_location || 'Lyon & Région ARA' }}
+      </div>
+    </div>
+
+    <!-- Contenu droite -->
+    <div class="about__content">
+
+      <h2 class="about__h2">{{ config.about_titre || 'À propos de Las Moments' }}</h2>
+
+      <div class="about__story">
+        <p class="about__story-main">{{ config.about_text }}</p>
+      </div>
+
+      <div class="about__signature">
+        <div class="about__signature-avatar">
+          <i class="fas fa-camera"></i>
+        </div>
+        <div>
+          <strong>{{ config.about_signature || 'L\'équipe Las Moments' }}</strong>
+          <span>{{ config.about_location || 'Lyon & Région ARA' }}</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>

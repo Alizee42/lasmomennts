@@ -1,0 +1,35 @@
+<footer class="footer">
+  <div class="footer__inner">
+    <p class="footer__logo">Las<span>Moments</span></p>
+
+    <nav class="footer__nav">
+      <a href="#about">À propos</a>
+      <a href="#services">Services</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="#galerie">Galerie</a>
+      <a href="#avis">Avis</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="footer__social">
+      <a *ngIf="config.instagram_url" [href]="config.instagram_url" target="_blank" rel="noopener" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a *ngIf="config.facebook_url" [href]="config.facebook_url" target="_blank" rel="noopener" aria-label="Facebook">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a *ngIf="config.tiktok_url" [href]="config.tiktok_url" target="_blank" rel="noopener" aria-label="TikTok">
+        <i class="fab fa-tiktok"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <p>© {{ year }} Las Moments — Lyon & Région ARA</p>
+    <div class="footer__legal">
+      <a routerLink="/mentions-legales">Mentions légales</a>
+      <span>·</span>
+      <a routerLink="/politique-confidentialite">Politique de confidentialité</a>
+    </div>
+  </div>
+</footer>

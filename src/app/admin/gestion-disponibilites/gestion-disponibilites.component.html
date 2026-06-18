@@ -1,0 +1,148 @@
+<div class="admin-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-header__inner">
+      <div>
+        <p class="page-header__eyebrow">Administration</p>
+        <h1>Disponibilités</h1>
+      </div>
+      <button class="add-btn" (click)="showForm = !showForm">
+        <i class="fas" [class.fa-plus]="!showForm" [class.fa-times]="showForm"></i>
+        {{ showForm ? 'Annuler' : 'Ajouter une date' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Formulaire -->
+  <div class="dispo-form-wrap" *ngIf="showForm">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="dispo-form">
+      <p class="dispo-form__title">Nouvelle disponibilité</p>
+      <div class="dispo-form__grid">
+        <div class="field">
+          <label>Date <span>*</span></label>
+          <input formControlName="dateEvenement" type="date" />
+        </div>
+        <div class="field">
+          <label>Statut</label>
+          <select formControlName="disponible">
+            <option [ngValue]="true">Disponible</option>
+            <option [ngValue]="false">Réservé</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Heure début <span>*</span></label>
+          <input formControlName="heureDebut" type="time" />
+        </div>
+        <div class="field">
+          <label>Heure fin <span>*</span></label>
+          <input formControlName="heureFin" type="time" />
+        </div>
+        <div class="field field--full">
+          <label>Description <em>(optionnel)</em></label>
+          <input formControlName="description" type="text" placeholder="Ex : Mariage Martin, Anniversaire…" />
+        </div>
+      </div>
+      <div class="dispo-form__actions">
+        <button type="submit" class="save-btn" [disabled]="form.invalid">
+          <i class="fas fa-check"></i> Enregistrer
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Filtres + stats -->
+  <div class="table-toolbar">
+    <div class="toolbar__filters">
+      <!-- Filtre mois -->
+      <div class="filter-group">
+        <i class="fas fa-calendar-alt"></i>
+        <select [(ngModel)]="filtreMois" (ngModelChange)="resetPage()">
+          <option value="">Tous les mois</option>
+          <option *ngFor="let m of moisDisponibles" [value]="m.value">{{ m.label }}</option>
+        </select>
+      </div>
+      <!-- Filtre statut -->
+      <div class="filter-group">
+        <i class="fas fa-filter"></i>
+        <select [(ngModel)]="filtreStatut" (ngModelChange)="resetPage()">
+          <option value="">Tous les statuts</option>
+          <option value="true">Disponible</option>
+          <option value="false">Réservé</option>
+        </select>
+      </div>
+    </div>
+    <div class="toolbar__meta">
+      <span class="meta-count">{{ disponibilitesFiltrees.length }} résultat{{ disponibilitesFiltrees.length !== 1 ? 's' : '' }}</span>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap" *ngIf="disponibilitesFiltrees.length > 0; else empty">
+    <table class="dispo-table">
+      <thead>
+        <tr>
+          <th class="sortable" (click)="toggleSort('date')">
+            Date
+            <i class="fas" [class.fa-sort]="sortCol !== 'date'"
+               [class.fa-sort-up]="sortCol === 'date' && sortDir === 'asc'"
+               [class.fa-sort-down]="sortCol === 'date' && sortDir === 'desc'"></i>
+          </th>
+          <th>Horaires</th>
+          <th class="sortable" (click)="toggleSort('statut')">
+            Statut
+            <i class="fas" [class.fa-sort]="sortCol !== 'statut'"
+               [class.fa-sort-up]="sortCol === 'statut' && sortDir === 'asc'"
+               [class.fa-sort-down]="sortCol === 'statut' && sortDir === 'desc'"></i>
+          </th>
+          <th>Description</th>
+          <th class="col-action"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let d of page">
+          <td class="col-date">
+            <span class="date-day">{{ d.dateEvenement | date:'dd' }}</span>
+            <span class="date-rest">{{ d.dateEvenement | date:'MMM yyyy' }}</span>
+          </td>
+          <td class="col-hours">
+            <i class="fas fa-clock"></i> {{ d.heureDebut }} – {{ d.heureFin }}
+          </td>
+          <td>
+            <span class="badge" [class.badge--green]="d.disponible" [class.badge--violet]="!d.disponible">
+              <i class="fas" [class.fa-check-circle]="d.disponible" [class.fa-lock]="!d.disponible"></i>
+              {{ d.disponible ? 'Disponible' : 'Réservé' }}
+            </span>
+          </td>
+          <td class="col-desc">{{ d.description || '—' }}</td>
+          <td class="col-action">
+            <button class="del-btn" (click)="supprimer(d.id)" title="Supprimer">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button class="page-btn" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button class="page-btn" *ngFor="let p of pagesArray"
+              [class.active]="p === currentPage"
+              (click)="goToPage(p)">{{ p + 1 }}</button>
+      <button class="page-btn" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages - 1">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <ng-template #empty>
+    <div class="admin-empty">
+      <i class="fas fa-calendar-times"></i>
+      <p>Aucune disponibilité pour ces critères.</p>
+    </div>
+  </ng-template>
+
+</div>

@@ -1,0 +1,185 @@
+.tarifs-section {
+  background: var(--color-bg-dark);
+  position: relative;
+  overflow: visible;
+  padding-top: 6.5rem !important;
+  padding-bottom: 3rem !important;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(155, 35, 53, 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 30%, rgba(212, 175, 106, 0.08) 0%, transparent 50%);
+
+  .section-title {
+    h2 { color: #fff; }
+    p { color: rgba(255,255,255,0.5); }
+  }
+}
+
+.tarifs__tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+
+  button { font-family: var(--font-primary); }
+}
+
+.tarifs__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.5rem;
+  border: 1px solid var(--color-border-dark);
+  border-radius: 30px;
+  background: transparent;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  i { font-size: 0.85rem; }
+
+  &:hover {
+    border-color: rgba(212, 175, 106, 0.4);
+    color: rgba(255,255,255,0.85);
+  }
+
+  &--active {
+    background: rgba(212, 175, 106, 0.12);
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+  }
+}
+
+.tarifs__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.tarif-card {
+  position: relative;
+  background: var(--color-bg-dark-card);
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: var(--transition);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+    border-color: rgba(212, 175, 106, 0.3);
+  }
+
+  &--premium {
+    border-color: var(--color-gold);
+    box-shadow: 0 0 30px rgba(212, 175, 106, 0.12);
+    &:hover { box-shadow: 0 16px 40px rgba(212, 175, 106, 0.2); }
+  }
+
+  &--devis {
+    border-style: dashed;
+  }
+
+  &__badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-gold);
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.3rem 1.2rem;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &__label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-gold);
+    margin: 0;
+  }
+
+  &__price {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border-dark);
+
+    .price__from {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .price__amount {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--color-gold);
+      line-height: 1.1;
+
+      &--devis {
+        font-size: 1.5rem;
+        color: rgba(255,255,255,0.5);
+      }
+    }
+  }
+
+  &__features {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.875rem;
+      line-height: 1.4;
+
+      i {
+        color: var(--color-gold);
+        font-size: 0.7rem;
+        flex-shrink: 0;
+        margin-top: 0.25rem;
+      }
+    }
+  }
+
+  .btn { justify-content: center; }
+}
+
+.tarifs__note {
+  text-align: center;
+  margin-top: 1rem;
+  color: rgba(255,255,255,0.3);
+  font-size: 0.85rem;
+
+  i { color: var(--color-gold); margin-right: 0.5rem; }
+}
+
+.btn-rouge {
+  background: var(--color-violet);
+  color: #fff;
+  &:hover { background: var(--color-violet-dark); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(155, 35, 53, 0.3); }
+}
+
+.gold { color: var(--color-gold); }
+
+@media (max-width: 768px) {
+  .tarifs__grid { grid-template-columns: 1fr; max-width: 400px; }
+}

@@ -1,0 +1,49 @@
+<section class="section services-section" id="services">
+  <!-- Vague depuis About -->
+  <div class="wave-top">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 L0,20 C480,80 960,0 1440,50 L1440,0 Z" fill="#F1F3F5"/>
+    </svg>
+  </div>
+
+  <div class="section-title">
+    <h2>Nos <span class="gold">Prestations</span></h2>
+    <div class="title-line"></div>
+    <p>Une animation unique pour chaque type d'événement</p>
+  </div>
+
+  <div class="tabs">
+
+    <!-- Onglets -->
+    <div class="tabs__nav">
+      <button class="tabs__tab" *ngFor="let s of services(); let i = index"
+              [class.tabs__tab--active]="activeIndex === i"
+              (click)="toggle(i)">
+        <div class="tabs__tab-icon"><i class="fas {{ s.icon }}"></i></div>
+        <span>{{ s.titre }}</span>
+        <span class="tabs__badge" *ngIf="s.badge">{{ s.badge }}</span>
+      </button>
+    </div>
+
+    <!-- Contenu actif -->
+    <div class="tabs__panel" *ngFor="let s of services(); let i = index">
+      <div class="tabs__content" *ngIf="activeIndex === i">
+        <div class="tabs__img" *ngIf="s.imageUrl">
+          <img [src]="s.imageUrl | apiUrl" [alt]="s.titre" loading="lazy" />
+        </div>
+        <div class="tabs__placeholder" *ngIf="!s.imageUrl">
+          <i class="fas {{ s.icon }}"></i>
+        </div>
+        <div class="tabs__text">
+          <h3>{{ s.titre }}</h3>
+          <p>{{ s.description }}</p>
+          <a href="#contact" class="btn btn-primary">
+            <i class="fas fa-paper-plane"></i> Demander un devis
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>

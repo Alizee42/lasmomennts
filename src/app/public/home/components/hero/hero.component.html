@@ -1,0 +1,83 @@
+<section class="hero" id="hero">
+
+  <!-- Vidéo de fond -->
+  <div class="hero__video-wrapper" *ngIf="config.hero_video_url; else imgFallback">
+    <video #heroVideo class="hero__video" [src]="config.hero_video_url | apiUrl" muted loop playsinline (canplay)="heroVideo.play()"></video>
+  </div>
+  <ng-template #imgFallback>
+    <div class="hero__video-wrapper hero__video-wrapper--placeholder"></div>
+  </ng-template>
+
+  <!-- Overlay -->
+  <div class="hero__overlay"></div>
+
+  <!-- Contenu principal -->
+  <div class="hero__content">
+
+    <!-- Badge localisation -->
+    <div class="hero__badge">
+      <i class="fas fa-map-marker-alt"></i>
+      {{ config.hero_badge || 'Lyon & Région ARA' }}
+    </div>
+
+    <!-- Titre -->
+    <h1 class="hero__title">
+      {{ config.hero_titre_ligne1 || 'Vos événements' }}<br>
+      {{ config.hero_titre_ligne2 || 'méritent un' }}<br>
+      <span>{{ config.hero_titre_ligne3 || 'souvenir unique.' }}</span>
+    </h1>
+
+    <!-- Sous-titre -->
+    <p class="hero__subtitle">{{ config.hero_sous_titre || 'Vidéobooth 360°, Photobooth & Livre d\'or Audio — pour vos mariages, anniversaires et soirées privées.' }}</p>
+
+    <!-- CTA -->
+    <div class="hero__cta">
+      <a href="#tarifs" class="btn btn-primary">
+        <i class="fas fa-star"></i>
+        Voir les formules
+      </a>
+      <a href="#contact" class="btn btn-outline">
+        <i class="fas fa-paper-plane"></i>
+        Nous contacter
+      </a>
+    </div>
+
+    <!-- Chips événements -->
+    <div class="hero__chips">
+      <span class="hero__chip"><i class="fas fa-heart"></i> Mariage</span>
+      <span class="hero__chip"><i class="fas fa-birthday-cake"></i> Anniversaire</span>
+      <span class="hero__chip"><i class="fas fa-glass-cheers"></i> Soirée privée</span>
+      <span class="hero__chip"><i class="fas fa-briefcase"></i> Séminaire</span>
+    </div>
+
+  </div>
+
+  <!-- Bande stats -->
+  <div class="hero__stats">
+    <div class="hero__stat">
+      <strong>{{ config.hero_stat1_nombre || '100+' }}</strong>
+      <span>{{ config.hero_stat1_label || 'événements' }}</span>
+    </div>
+    <div class="hero__stat-sep"></div>
+    <div class="hero__stat">
+      <strong>{{ config.hero_stat2_nombre || '5★' }}</strong>
+      <span>{{ config.hero_stat2_label || 'avis clients' }}</span>
+    </div>
+    <div class="hero__stat-sep"></div>
+    <div class="hero__stat">
+      <strong>{{ config.hero_stat3_nombre || '360°' }}</strong>
+      <span>{{ config.hero_stat3_label || 'vidéobooth' }}</span>
+    </div>
+    <div class="hero__stat-sep"></div>
+    <div class="hero__stat">
+      <strong>{{ config.hero_stat4_nombre || 'Immédiat' }}</strong>
+      <span>{{ config.hero_stat4_label || 'livraison' }}</span>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero__scroll">
+    <span></span>
+  </div>
+
+</section>

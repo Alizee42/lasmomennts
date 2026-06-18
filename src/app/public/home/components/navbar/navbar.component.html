@@ -1,0 +1,26 @@
+<header class="navbar" [class.scrolled]="scrolled">
+  <div class="navbar__inner">
+    <a href="#hero" class="navbar__logo" (click)="closeMenu()">
+      Las<span>Moments</span>
+    </a>
+
+    <nav class="navbar__links" [class.open]="menuOpen">
+      <a href="#about"     (click)="closeMenu()">À propos</a>
+      <a href="#services"  (click)="closeMenu()">Services</a>
+      <a href="#tarifs"    (click)="closeMenu()">Tarifs</a>
+      <a href="#galerie"   (click)="closeMenu()">Galerie</a>
+      <a href="#avis"      (click)="closeMenu()">Avis</a>
+      <a href="#contact" class="btn btn-primary" (click)="closeMenu()">Réserver</a>
+    </nav>
+
+    <a routerLink="/login" class="navbar__admin-link" title="Espace admin">
+      <i class="fas fa-lock"></i>
+    </a>
+
+    <button class="navbar__burger" (click)="toggleMenu()" [class.open]="menuOpen" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>

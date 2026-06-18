@@ -1,0 +1,130 @@
+<div class="admin-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-header__inner">
+      <div>
+        <p class="page-header__eyebrow">Administration</p>
+        <h1>Vidéos galerie</h1>
+      </div>
+      <button class="add-btn" (click)="showForm = !showForm">
+        <i class="fas" [class.fa-plus]="!showForm" [class.fa-times]="showForm"></i>
+        {{ showForm ? 'Annuler' : 'Ajouter une vidéo' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Formulaire upload -->
+  <div class="upload-wrap" *ngIf="showForm">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="upload-form">
+      <p class="upload-form__title">Nouvelle vidéo</p>
+
+      <div class="upload-form__grid">
+        <!-- Titre -->
+        <div class="field field--full">
+          <label>Titre <span>*</span></label>
+          <input formControlName="titre" type="text" placeholder="Ex : Soirée mariage Martin…" />
+        </div>
+
+        <!-- Drop zone vidéo -->
+        <div class="drop-zone" [class.drop-zone--filled]="fichier" (click)="fileInput.click()">
+          <input #fileInput type="file" accept="video/*" (change)="onFichier($event)" hidden />
+          <ng-container *ngIf="!fichier">
+            <i class="fas fa-film"></i>
+            <p>Cliquer pour choisir une vidéo</p>
+            <span>.mp4, .mov, .webm</span>
+          </ng-container>
+          <ng-container *ngIf="fichier">
+            <i class="fas fa-check-circle"></i>
+            <p>{{ fichier.name }}</p>
+            <span>{{ (fichier.size / 1024 / 1024).toFixed(1) }} Mo</span>
+          </ng-container>
+        </div>
+
+        <!-- Drop zone miniature -->
+        <div class="drop-zone drop-zone--sm" [class.drop-zone--filled]="thumbnail" (click)="thumbInput.click()">
+          <input #thumbInput type="file" accept="image/*" (change)="onThumbnail($event)" hidden />
+          <ng-container *ngIf="!thumbnail">
+            <i class="fas fa-image"></i>
+            <p>Miniature <em>(optionnel)</em></p>
+            <span>JPG, PNG, WebP</span>
+          </ng-container>
+          <ng-container *ngIf="thumbnail">
+            <i class="fas fa-check-circle"></i>
+            <p>{{ thumbnail.name }}</p>
+            <span>{{ (thumbnail.size / 1024).toFixed(0) }} Ko</span>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Barre de progression -->
+      <div class="progress-bar" *ngIf="uploading">
+        <div class="progress-bar__fill" [style.width.%]="uploadProgress"></div>
+      </div>
+
+      <div class="upload-form__actions">
+        <button type="submit" class="save-btn" [disabled]="form.invalid || !fichier || uploading">
+          <i class="fas" [class.fa-spinner]="uploading" [class.fa-spin]="uploading" [class.fa-upload]="!uploading"></i>
+          {{ uploading ? 'Upload en cours… ' + uploadProgress + '%' : 'Envoyer la vidéo' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Compteur -->
+  <div class="list-meta" *ngIf="videos.length > 0">
+    <p>{{ videos.length }} vidéo{{ videos.length !== 1 ? 's' : '' }} en ligne</p>
+  </div>
+
+  <!-- Grille vidéos -->
+  <div class="videos-grid" *ngIf="videos.length > 0; else empty">
+    <div class="video-card" *ngFor="let v of videos">
+
+      <!-- Miniature -->
+      <div class="video-card__thumb">
+        <img *ngIf="getThumb(v)" [src]="getThumb(v)!" [alt]="v.titre" />
+        <div *ngIf="!getThumb(v)" class="video-card__placeholder">
+          <i class="fas fa-film"></i>
+        </div>
+        <div class="video-card__overlay">
+          <button class="play-btn" (click)="openModal(v)" title="Voir la vidéo">
+            <i class="fas fa-play"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Infos + action -->
+      <div class="video-card__body">
+        <div class="video-card__footer">
+          <div>
+            <p class="video-card__titre">{{ v.titre }}</p>
+            <p class="video-card__date"><i class="fas fa-calendar-alt"></i> {{ v.createdAt | date:'dd/MM/yyyy' }}</p>
+          </div>
+          <button class="del-btn" (click)="supprimer(v.id)" title="Supprimer">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #empty>
+    <div class="admin-empty">
+      <i class="fas fa-film"></i>
+      <p>Aucune vidéo dans la galerie.</p>
+    </div>
+  </ng-template>
+
+</div>
+
+<!-- Modale vidéo -->
+<div class="modal-backdrop" *ngIf="modalVideo" (click)="closeModal()">
+  <div class="modal-window" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <p class="modal-title">{{ modalVideo.titre }}</p>
+      <button class="modal-close" (click)="closeModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <video class="modal-video" [src]="modalVideo.url | apiUrl" controls autoplay></video>
+  </div>
+</div>

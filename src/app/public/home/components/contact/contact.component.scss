@@ -1,0 +1,233 @@
+.contact-section {
+  position: relative;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact__split {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  flex: 1;
+}
+
+// ── Gauche ──────────────────────────────────────────
+.contact__left {
+  background: #2C2F36;
+  padding: 8rem 3.5rem 2rem;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.1);
+    pointer-events: none;
+  }
+}
+
+.contact__left-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.contact__eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--color-violet);
+  margin-bottom: 1rem;
+}
+
+.contact__left h2 {
+  font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 1.25rem;
+
+  span { color: var(--color-gold); }
+}
+
+.contact__desc {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+}
+
+.contact__details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.contact__detail {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.2s;
+
+  &:hover { opacity: 0.8; }
+
+  div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+}
+
+.contact__detail-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 600;
+}
+
+.contact__detail-value {
+  font-size: 0.95rem;
+  color: #fff;
+  font-weight: 500;
+}
+
+.contact__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gold);
+  flex-shrink: 0;
+}
+
+.contact__social {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.social-link {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background: var(--color-violet);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.1rem;
+  transition: all 0.2s;
+
+  &:hover {
+    background: var(--color-gold);
+    color: #000;
+  }
+}
+
+.contact__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(212, 175, 106, 0.15);
+  border: 1px solid rgba(212, 175, 106, 0.3);
+  color: var(--color-gold);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+
+  i { font-size: 0.75rem; }
+}
+
+// ── Droite ──────────────────────────────────────────
+.contact__right {
+  background: #F8F6F3;
+  padding: 8rem 3rem 2rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.contact__form-wrapper {
+  width: 100%;
+  max-width: 560px;
+}
+
+.contact__form-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 2rem;
+}
+
+.contact__success {
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: #16A34A;
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  i { font-size: 1.2rem; }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--color-violet) !important;
+  box-shadow: 0 0 0 3px rgba(155, 35, 53, 0.1) !important;
+  outline: none !important;
+}
+
+.btn-rouge {
+  background: var(--color-violet);
+  color: #fff;
+  &:hover { background: var(--color-violet-dark); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(155, 35, 53, 0.3); }
+}
+
+.gold { color: var(--color-gold); }
+
+@media (max-width: 900px) {
+  .contact__split { grid-template-columns: 1fr; }
+  .contact__left  { padding: 7rem 2rem 3rem; }
+  .contact__right { padding: 3rem 2rem 4rem; }
+}
+
+@media (max-width: 480px) {
+  .form-row { grid-template-columns: 1fr; }
+}

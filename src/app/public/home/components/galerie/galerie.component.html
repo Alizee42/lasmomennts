@@ -1,0 +1,50 @@
+<section class="section galerie-section" id="galerie">
+  <!-- Vague depuis Tarifs (dark) -->
+  <div class="wave-top">
+    <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0 L0,30 C480,80 960,0 1440,50 L1440,0 Z" fill="#1E2329"/>
+    </svg>
+  </div>
+
+  <div class="section-title">
+    <h2>Notre <span class="gold">Galerie</span></h2>
+    <div class="title-line"></div>
+    <p>Revivez l'expérience Videobooth 360°</p>
+  </div>
+
+  <div class="galerie__grid" *ngIf="videos.length > 0; else empty">
+    <div class="galerie__item" *ngFor="let video of videos" (click)="openPlayer(video)">
+      <div class="galerie__thumbnail">
+        <img *ngIf="video.thumbnail" [src]="video.thumbnail | apiUrl" [alt]="video.titre" loading="lazy" />
+        <img *ngIf="!video.thumbnail && thumbnails[video.url]" [src]="thumbnails[video.url]" [alt]="video.titre" />
+        <div *ngIf="!video.thumbnail && !thumbnails[video.url]" class="galerie__thumbnail--placeholder">
+          <i class="fas fa-video"></i>
+        </div>
+        <div class="galerie__overlay">
+          <div class="galerie__play-btn">
+            <i class="fas fa-play"></i>
+          </div>
+          <p class="galerie__overlay-titre">{{ video.titre }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #empty>
+    <div class="galerie__empty">
+      <i class="fas fa-film"></i>
+      <p>Les vidéos arrivent bientôt...</p>
+    </div>
+  </ng-template>
+</section>
+
+<!-- Lightbox player -->
+<div class="lightbox" *ngIf="activeVideo" (click)="closePlayer()">
+  <div class="lightbox__content" (click)="$event.stopPropagation()">
+    <div class="lightbox__header">
+      <p class="lightbox__titre">{{ activeVideo.titre }}</p>
+      <button class="lightbox__close" (click)="closePlayer()"><i class="fas fa-times"></i></button>
+    </div>
+    <video [src]="activeVideo.url | apiUrl" controls autoplay class="lightbox__video"></video>
+  </div>
+</div>
