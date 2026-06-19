@@ -80,4 +80,12 @@
     <span></span>
   </div>
 
+  <!-- Musique de fond -->
+  <audio #bgMusic src="assets/apalonbeats-afrobeat-afro-beat-529537.mp3" loop></audio>
+
+  <!-- Bouton musique -->
+  <button class="hero__music-btn" (click)="toggleMusic()" [title]="playing ? 'Couper la musique' : 'Jouer la musique'">
+    <i class="fas" [class.fa-volume-up]="playing" [class.fa-volume-mute]="!playing"></i>
+  </button>
+
 </section>
