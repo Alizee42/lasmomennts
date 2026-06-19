@@ -15,7 +15,7 @@ export class ServicesComponent {
 
   activeIndex = 0;
 
-  services() {
+  get services() {
     return [
       {
         icon: 'fa-video',
@@ -41,7 +41,7 @@ export class ServicesComponent {
     ];
   }
 
-  toggle(index: number) {
-    this.activeIndex = this.activeIndex === index ? -1 : index;
+  select(index: number) {
+    this.activeIndex = index;
   }
 }

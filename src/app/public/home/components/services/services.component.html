@@ -16,9 +16,9 @@
 
     <!-- Onglets -->
     <div class="tabs__nav">
-      <button class="tabs__tab" *ngFor="let s of services(); let i = index"
+      <button class="tabs__tab" *ngFor="let s of services; let i = index"
               [class.tabs__tab--active]="activeIndex === i"
-              (click)="toggle(i)">
+              (click)="select(i)">
         <div class="tabs__tab-icon"><i class="fas {{ s.icon }}"></i></div>
         <span>{{ s.titre }}</span>
         <span class="tabs__badge" *ngIf="s.badge">{{ s.badge }}</span>
@@ -26,10 +26,11 @@
     </div>
 
     <!-- Contenu actif -->
-    <div class="tabs__panel" *ngFor="let s of services(); let i = index">
-      <div class="tabs__content" *ngIf="activeIndex === i">
+    <div class="tabs__panels">
+      <div class="tabs__content" *ngFor="let s of services; let i = index"
+           [class.tabs__content--active]="activeIndex === i">
         <div class="tabs__img" *ngIf="s.imageUrl">
-          <img [src]="s.imageUrl | apiUrl" [alt]="s.titre" loading="lazy" />
+          <img [src]="s.imageUrl | apiUrl" [alt]="s.titre" width="340" height="320" loading="eager" />
         </div>
         <div class="tabs__placeholder" *ngIf="!s.imageUrl">
           <i class="fas {{ s.icon }}"></i>
