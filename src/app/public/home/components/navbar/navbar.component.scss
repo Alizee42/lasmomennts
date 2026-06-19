@@ -39,6 +39,22 @@
     span { color: var(--color-gold); }
   }
 
+  &__logo-img {
+    height: 70px;
+    width: auto;
+    display: block;
+    transition: height 0.3s ease;
+
+    &--dark { display: none; }
+  }
+
+  &.scrolled &__logo-img {
+    height: 52px;
+
+    &--light { display: none; }
+    &--dark { display: block; }
+  }
+
   &__links {
     display: flex;
     align-items: center;
