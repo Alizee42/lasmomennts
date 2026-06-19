@@ -24,7 +24,7 @@
             "baseHref": "/",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": ["src/favicon.ico", "src/assets", { "glob": "_redirects", "input": "public", "output": "/" }],
             "styles": ["src/styles.scss"],
             "scripts": []
           },
