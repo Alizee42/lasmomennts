@@ -206,7 +206,11 @@
       gap: 3rem;
     }
   }
-  .about__photo { max-width: 400px; margin: 0 auto; }
+  .about__photo {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
   .about__photo img,
   .about__photo-placeholder { height: 380px; }
 }
@@ -214,9 +218,8 @@
 @media (max-width: 480px) {
   .about {
     padding-top: 4rem;
-    &__inner { gap: 2rem; padding: 0 1rem; }
+    &__inner { gap: 2rem; }
   }
-  .about__photo { max-width: 100%; }
   .about__photo img,
   .about__photo-placeholder { height: 260px; }
   .about__story-main { font-size: 0.9rem; }
