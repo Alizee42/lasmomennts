@@ -221,8 +221,18 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
 }
 
 @media (max-width: 768px) {
-  .section { padding: 4rem 1rem; }
-  .section-full { padding: 4rem 1rem; }
+  .section { padding: 4rem 1.25rem; }
+  .section-full { padding: 5rem 1.25rem 3rem; }
+  .section-title { margin-bottom: 2rem; }
+  .section-title h2 { font-size: 1.6rem; }
+}
+
+@media (max-width: 480px) {
+  .section { padding: 3rem 1rem; }
+  .section-full { padding: 4rem 1rem 2.5rem; }
+  .section-title { margin-bottom: 1.5rem; }
+  .section-title h2 { font-size: 1.4rem; }
+  .btn { font-size: 0.875rem; padding: 0.65rem 1.4rem; }
 }
 
 // =============================================

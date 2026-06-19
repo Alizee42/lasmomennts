@@ -135,8 +135,21 @@
   }
 }
 
-@media (max-width: 700px) {
-  .tabs__nav { grid-template-columns: 1fr; }
-  .tabs__content { grid-template-columns: 1fr; }
-  .tabs__img { height: 200px; }
+@media (max-width: 900px) {
+  .services-section { padding-top: 5rem; }
+  .tabs {
+    max-width: 100%;
+    padding: 0 1rem;
+
+    &__content { grid-template-columns: 1fr; }
+    &__img { height: 260px; }
+  }
+}
+
+@media (max-width: 600px) {
+  .tabs {
+    &__nav { grid-template-columns: 1fr; }
+    &__img { height: 200px; }
+    &__text { padding: 1.5rem; }
+  }
 }

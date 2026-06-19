@@ -187,8 +187,11 @@
 .gold { color: var(--color-gold); }
 
 @media (max-width: 768px) {
+  .galerie-section { padding-top: 5rem; }
   .galerie__grid { grid-template-columns: repeat(2, 1fr); }
+  .lightbox { padding: 0.75rem; }
+  .lightbox__content { border-radius: 8px; }
 }
 @media (max-width: 480px) {
-  .galerie__grid { grid-template-columns: 1fr; }
+  .galerie__grid { grid-template-columns: 1fr; gap: 0.75rem; }
 }

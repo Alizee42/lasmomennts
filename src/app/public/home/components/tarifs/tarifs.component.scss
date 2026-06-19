@@ -180,6 +180,19 @@
 
 .gold { color: var(--color-gold); }
 
-@media (max-width: 768px) {
-  .tarifs__grid { grid-template-columns: 1fr; max-width: 400px; }
+@media (max-width: 900px) {
+  .tarifs-section { padding-top: 5rem; }
+  .tarifs__grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 640px;
+  }
+}
+
+@media (max-width: 580px) {
+  .tarifs__grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  .tarif-card { padding: 1.75rem 1.5rem; }
 }

@@ -286,8 +286,24 @@
 }
 
 @media (max-width: 768px) {
-  .carousel__arrow--prev { left: -10px; }
-  .carousel__arrow--next { right: -10px; }
+  .avis-section { padding-top: 5rem; }
+  .carousel {
+    padding: 0 2.5rem;
+    &__arrow--prev { left: -5px; }
+    &__arrow--next { right: -5px; }
+    &__arrow {
+      width: 36px;
+      height: 36px;
+    }
+  }
   .avis-card { padding: 1.75rem 1.25rem; }
+  .avis-card__message { font-size: 0.95rem; }
   .form-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .carousel { padding: 0 0.5rem; }
+  .carousel__arrow { display: none; }
+  .avis-card { padding: 1.5rem 1rem; }
+  .modal { padding: 1.75rem 1.25rem; }
 }

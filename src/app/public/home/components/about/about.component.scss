@@ -199,11 +199,25 @@
 .gold { color: var(--color-gold); }
 
 @media (max-width: 900px) {
-  .about__inner {
-    grid-template-columns: 1fr;
-    gap: 3rem;
+  .about {
+    padding-top: 5rem;
+    &__inner {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
   }
-  .about__photo { max-width: 380px; margin: 0 auto; }
+  .about__photo { max-width: 400px; margin: 0 auto; }
   .about__photo img,
   .about__photo-placeholder { height: 380px; }
+}
+
+@media (max-width: 480px) {
+  .about {
+    padding-top: 4rem;
+    &__inner { gap: 2rem; padding: 0 1rem; }
+  }
+  .about__photo { max-width: 100%; }
+  .about__photo img,
+  .about__photo-placeholder { height: 260px; }
+  .about__story-main { font-size: 0.9rem; }
 }
