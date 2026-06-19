@@ -190,6 +190,8 @@
 // ── Table ────────────────────────────────────────────
 .table-wrap {
   padding: 0 2.5rem 2rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .dispo-table {
@@ -354,4 +356,12 @@
 
   i { font-size: 2.5rem; color: var(--color-border); }
   p { font-size: 0.95rem; margin: 0; }
+}
+
+@media (max-width: 640px) {
+  .page-header { padding: 1.25rem 1rem; }
+  .dispo-form-wrap { padding: 0 1rem 1rem; }
+  .dispo-form__grid { grid-template-columns: 1fr; }
+  .table-wrap { padding: 0 1rem 2rem; }
+  .table-toolbar { padding: 0 1rem 1rem; }
 }

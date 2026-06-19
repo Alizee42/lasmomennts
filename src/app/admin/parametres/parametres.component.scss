@@ -680,3 +680,19 @@
   gap: 1rem;
   align-items: flex-start;
 }
+
+@media (max-width: 768px) {
+  .page-header { padding: 1.25rem 1rem; }
+  .param-tabs { padding: 0 1rem; overflow-x: auto; flex-wrap: nowrap; }
+  .param-tabs button { white-space: nowrap; flex-shrink: 0; }
+  .param-body { padding: 1.25rem 1rem 2rem; }
+  .layout-2col,
+  .layout-3col,
+  .about-layout,
+  .contact-layout { grid-template-columns: 1fr; }
+  .fields-grid,
+  .fields-grid--3,
+  .fields-grid--2x2 { grid-template-columns: 1fr; }
+  .stats-grid { flex-wrap: wrap; }
+  .stats-grid .stat-pair { flex: 1 1 calc(50% - 0.25rem); }
+}
