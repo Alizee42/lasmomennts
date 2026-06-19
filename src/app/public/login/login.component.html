@@ -3,7 +3,7 @@
   <!-- Gauche -->
   <div class="login-left">
     <div class="login-left__content">
-      <div class="login-left__logo">Las<span>Moments</span></div>
+      <img src="assets/logo1.png" alt="Las Moments" class="login-left__logo-img">
       <h1>Bienvenue sur votre espace de connexion</h1>
       <p>Gérez votre site en toute simplicité : disponibilités, avis clients, vidéos et contenu.</p>
       <div class="login-left__features">
@@ -47,14 +47,15 @@
           <i class="fas fa-exclamation-circle"></i> {{ error }}
         </p>
 
-        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || loading">
-          {{ loading ? 'Connexion...' : 'Se connecter' }}
-        </button>
+        <div class="login-actions">
+          <a href="/" class="login-back">
+            <i class="fas fa-arrow-left"></i> Retour
+          </a>
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid || loading">
+            {{ loading ? 'Connexion...' : 'Se connecter' }}
+          </button>
+        </div>
       </form>
-
-      <a href="/" class="login-back">
-        <i class="fas fa-arrow-left"></i> Retour au site
-      </a>
     </div>
   </div>
 

@@ -1,27 +1,51 @@
-<header class="navbar" [class.scrolled]="scrolled">
+<header class="navbar" [class.scrolled]="scrolled || loginPage">
   <div class="navbar__inner">
-    <a href="#hero" class="navbar__logo" (click)="closeMenu()">
+    <a [href]="loginPage ? '/' : '#hero'" class="navbar__logo" (click)="closeMenu()">
       <img src="assets/logo1.png" alt="Las Moments" class="navbar__logo-img navbar__logo-img--light">
       <img src="assets/logo2.png" alt="Las Moments" class="navbar__logo-img navbar__logo-img--dark">
     </a>
 
-    <nav class="navbar__links" [class.open]="menuOpen">
-      <a href="#about"     (click)="closeMenu()">À propos</a>
-      <a href="#services"  (click)="closeMenu()">Services</a>
-      <a href="#tarifs"    (click)="closeMenu()">Tarifs</a>
-      <a href="#galerie"   (click)="closeMenu()">Galerie</a>
-      <a href="#avis"      (click)="closeMenu()">Avis</a>
-      <a href="#contact" class="btn btn-primary" (click)="closeMenu()">Réserver</a>
-    </nav>
+    @if (!loginPage) {
+      <nav class="navbar__links" [class.open]="menuOpen">
+        <a href="#about"     (click)="closeMenu()">À propos</a>
+        <a href="#services"  (click)="closeMenu()">Services</a>
+        <a href="#tarifs"    (click)="closeMenu()">Tarifs</a>
+        <a href="#galerie"   (click)="closeMenu()">Galerie</a>
+        <a href="#avis"      (click)="closeMenu()">Avis</a>
+        <a href="#contact" class="btn btn-primary" (click)="closeMenu()">Réserver</a>
+      </nav>
+    } @else {
+      <a routerLink="/" class="navbar__back-link">
+        <i class="fas fa-arrow-left"></i> Retour au site
+      </a>
+    }
 
-    <a routerLink="/login" class="navbar__admin-link" title="Espace admin">
-      <i class="fas fa-lock"></i>
-    </a>
+    @if (auth.isLoggedIn()) {
+      <div class="navbar__admin-dropdown" [class.open]="dropdownOpen">
+        <button class="navbar__admin-btn" (click)="toggleDropdown()">
+          <i class="fas fa-user-shield"></i>
+        </button>
+        <div class="navbar__dropdown-menu">
+          <a routerLink="/admin/dashboard" (click)="dropdownOpen = false">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a>
+          <button (click)="auth.logout()">
+            <i class="fas fa-sign-out-alt"></i> Déconnexion
+          </button>
+        </div>
+      </div>
+    } @else {
+      <a routerLink="/login" class="navbar__admin-link" title="Espace admin">
+        <i class="fas fa-lock"></i>
+      </a>
+    }
 
-    <button class="navbar__burger" (click)="toggleMenu()" [class.open]="menuOpen" aria-label="Menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+    @if (!loginPage) {
+      <button class="navbar__burger" (click)="toggleMenu()" [class.open]="menuOpen" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    }
   </div>
 </header>
