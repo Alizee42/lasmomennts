@@ -13,6 +13,15 @@
         <a href="#galerie"   (click)="closeMenu()">Galerie</a>
         <a href="#avis"      (click)="closeMenu()">Avis</a>
         <a href="#contact" class="btn btn-primary" (click)="closeMenu()">Réserver</a>
+        @if (auth.isLoggedIn()) {
+          <a routerLink="/admin/dashboard" class="navbar__mobile-admin" (click)="closeMenu()">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+          </a>
+        } @else {
+          <a routerLink="/login" class="navbar__mobile-admin" (click)="closeMenu()">
+            <i class="fas fa-lock"></i> Espace admin
+          </a>
+        }
       </nav>
     } @else {
       <a routerLink="/" class="navbar__back-link">
