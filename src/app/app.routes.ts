@@ -15,6 +15,14 @@ export const routes: Routes = [
     loadComponent: () => import('./public/confirmation/confirmation.component').then(m => m.ConfirmationComponent)
   },
   {
+    path: 'mentions-legales',
+    loadComponent: () => import('./public/mentions-legales/mentions-legales.component').then(m => m.MentionsLegalesComponent)
+  },
+  {
+    path: 'politique-confidentialite',
+    loadComponent: () => import('./public/politique-confidentialite/politique-confidentialite.component').then(m => m.PolitiqueConfidentialiteComponent)
+  },
+  {
     path: 'admin',
     canActivate: [authGuard],
     loadComponent: () => import('./admin/layout/admin-layout.component').then(m => m.AdminLayoutComponent),
