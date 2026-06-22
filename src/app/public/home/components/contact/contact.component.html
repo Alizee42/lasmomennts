@@ -113,6 +113,16 @@
             <textarea formControlName="message" placeholder="Précisez votre projet, le lieu..." rows="4"></textarea>
           </div>
 
+          <div class="form-group form-group--consent">
+            <label class="consent-label">
+              <input type="checkbox" formControlName="consentement" />
+              <span>
+                J'accepte que mes données soient utilisées pour traiter ma demande de devis,
+                conformément à la <a routerLink="/politique-confidentialite" target="_blank">politique de confidentialité</a>.
+              </span>
+            </label>
+          </div>
+
           <div style="display:flex; justify-content:center;">
             <button type="submit" class="btn btn-rouge" [disabled]="form.invalid || loading">
               <i class="fas fa-paper-plane"></i>

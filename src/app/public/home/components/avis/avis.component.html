@@ -115,6 +115,16 @@
         <img *ngIf="photoPreview" [src]="photoPreview" class="photo-preview" alt="Aperçu" />
       </div>
 
+      <div class="form-group form-group--consent">
+        <label class="consent-label">
+          <input type="checkbox" formControlName="consentement" />
+          <span>
+            J'accepte que mon avis soit publié avec mon prénom et ma photo,
+            conformément à la <a routerLink="/politique-confidentialite" target="_blank">politique de confidentialité</a>.
+          </span>
+        </label>
+      </div>
+
       <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
         <i class="fas fa-paper-plane"></i> Envoyer mon avis
       </button>

@@ -20,7 +20,7 @@ export class ParametresComponent implements OnInit {
   private base = environment.apiUrl.replace('/api', '');
   saved = false;
   activeTab: 'hero' | 'about' | 'services' | 'tarifs' | 'contact' = 'hero';
-  config: any = {};
+  config: SiteConfig = {} as SiteConfig;
 
   getUrl(path: string): string {
     if (!path) return '';
@@ -104,14 +104,9 @@ export class ParametresComponent implements OnInit {
   ngOnInit() { this.loadConfig(); }
 
   loadConfig() {
-    this.service.getConfig().subscribe((c: any) => {
-      console.log('CONFIG REÇUE DU BACK :', c);
-      console.log('hero_badge :', c['hero_badge']);
-      console.log('hero_titre_ligne1 :', c['hero_titre_ligne1']);
-      console.log('hero_sous_titre :', c['hero_sous_titre']);
+    this.service.getConfig().subscribe((c: SiteConfig) => {
       this.config = c;
       this.form.patchValue(c);
-      console.log('FORM VALUE APRÈS PATCH :', this.form.value);
       Object.keys(this.features).forEach(key => {
         const raw: string = c[key] ?? '';
         this.features[key] = raw ? raw.split('|').map((s: string) => s.trim()).filter(Boolean) : [];

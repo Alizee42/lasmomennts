@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { AvisService } from '../../../../core/services/avis.service';
 import { Avis } from '../../../../core/models/avis.model';
 import { ApiUrlPipe } from '../../../../core/pipes/api-url.pipe';
@@ -8,7 +9,7 @@ import { ApiUrlPipe } from '../../../../core/pipes/api-url.pipe';
 @Component({
   selector: 'app-avis',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ApiUrlPipe],
+  imports: [CommonModule, ReactiveFormsModule, ApiUrlPipe, RouterLink],
   templateUrl: './avis.component.html',
   styleUrls: ['./avis.component.scss']
 })
@@ -24,10 +25,11 @@ export class AvisComponent implements OnInit {
   photoPreview: string | null = null;
 
   form = this.fb.group({
-    nom:     ['', [Validators.required, Validators.maxLength(100)]],
-    prenom:  ['', [Validators.required, Validators.maxLength(100)]],
-    message: ['', [Validators.required]],
-    note:    [5, [Validators.required, Validators.min(1), Validators.max(5)]]
+    nom:          ['', [Validators.required, Validators.maxLength(100)]],
+    prenom:       ['', [Validators.required, Validators.maxLength(100)]],
+    message:      ['', [Validators.required]],
+    note:         [5, [Validators.required, Validators.min(1), Validators.max(5)]],
+    consentement: [false, Validators.requiredTrue]
   });
 
   ngOnInit() {

@@ -1,6 +1,7 @@
 import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SiteConfig } from '../../../../core/models/site-config.model';
 import { environment } from '../../../../../environments/environment';
@@ -8,7 +9,7 @@ import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss']
 })
@@ -28,7 +29,8 @@ export class ContactComponent {
     type_evenement: ['', Validators.required],
     date_souhaitee: ['', Validators.required],
     nb_personnes:   [''],
-    message:        ['']
+    message:        [''],
+    consentement:   [false, Validators.requiredTrue]
   });
 
   submit() {
