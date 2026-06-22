@@ -1,5 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { HttpEventType } from '@angular/common/http';
 import { VideoService } from '../../core/services/video.service';
@@ -14,10 +16,11 @@ import { environment } from '../../../environments/environment';
   templateUrl: './gestion-videos.component.html',
   styleUrls: ['./gestion-videos.component.scss']
 })
-export class GestionVideosComponent implements OnInit {
+export class GestionVideosComponent implements OnInit, OnDestroy {
   private service = inject(VideoService);
   private fb = inject(FormBuilder);
   private base = environment.apiUrl.replace('/api', '');
+  private destroy$ = new Subject<void>();
 
   videos: Video[] = [];
   showForm = false;
@@ -32,8 +35,10 @@ export class GestionVideosComponent implements OnInit {
 
   ngOnInit() { this.load(); }
 
+  ngOnDestroy() { this.destroy$.next(); this.destroy$.complete(); }
+
   load() {
-    this.service.getVideos().subscribe(v => {
+    this.service.getVideos().pipe(takeUntil(this.destroy$)).subscribe(v => {
       this.videos = v;
       v.forEach(video => {
         if (!video.thumbnail) this.generateThumbnail(video);

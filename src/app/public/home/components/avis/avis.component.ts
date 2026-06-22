@@ -1,5 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AvisService } from '../../../../core/services/avis.service';
@@ -13,9 +15,10 @@ import { ApiUrlPipe } from '../../../../core/pipes/api-url.pipe';
   templateUrl: './avis.component.html',
   styleUrls: ['./avis.component.scss']
 })
-export class AvisComponent implements OnInit {
+export class AvisComponent implements OnInit, OnDestroy {
   private avisService = inject(AvisService);
   private fb = inject(FormBuilder);
+  private destroy$ = new Subject<void>();
 
   avis: Avis[] = [];
   activeIndex = 0;
@@ -33,8 +36,10 @@ export class AvisComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.avisService.getAvisApprouves().subscribe(a => this.avis = a);
+    this.avisService.getAvisApprouves().pipe(takeUntil(this.destroy$)).subscribe(a => this.avis = a);
   }
+
+  ngOnDestroy() { this.destroy$.next(); this.destroy$.complete(); }
 
   prev() {
     this.activeIndex = this.activeIndex === 0 ? this.avis.length - 1 : this.activeIndex - 1;

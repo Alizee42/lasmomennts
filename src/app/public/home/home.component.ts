@@ -1,5 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { SiteConfigService } from '../../core/services/site-config.service';
 import { SiteConfig } from '../../core/models/site-config.model';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -46,11 +48,14 @@ import { FooterComponent } from './components/footer/footer.component';
     </ng-container>
   `
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   private configService = inject(SiteConfigService);
+  private destroy$ = new Subject<void>();
   config: SiteConfig | null = null;
 
   ngOnInit() {
-    this.configService.getConfig().subscribe(c => this.config = c);
+    this.configService.getConfig().pipe(takeUntil(this.destroy$)).subscribe(c => this.config = c);
   }
+
+  ngOnDestroy() { this.destroy$.next(); this.destroy$.complete(); }
 }

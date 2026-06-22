@@ -1,5 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ReactiveFormsModule, FormBuilder, FormsModule } from '@angular/forms';
 import { SiteConfigService } from '../../core/services/site-config.service';
 import { SiteConfig } from '../../core/models/site-config.model';
@@ -13,9 +15,10 @@ import { environment } from '../../../environments/environment';
   templateUrl: './parametres.component.html',
   styleUrls: ['./parametres.component.scss']
 })
-export class ParametresComponent implements OnInit {
+export class ParametresComponent implements OnInit, OnDestroy {
   private service = inject(SiteConfigService);
   private fb = inject(FormBuilder);
+  private destroy$ = new Subject<void>();
 
   private base = environment.apiUrl.replace('/api', '');
   saved = false;
@@ -103,8 +106,10 @@ export class ParametresComponent implements OnInit {
 
   ngOnInit() { this.loadConfig(); }
 
+  ngOnDestroy() { this.destroy$.next(); this.destroy$.complete(); }
+
   loadConfig() {
-    this.service.getConfig().subscribe((c: SiteConfig) => {
+    this.service.getConfig().pipe(takeUntil(this.destroy$)).subscribe((c: SiteConfig) => {
       this.config = c;
       this.form.patchValue(c);
       Object.keys(this.features).forEach(key => {

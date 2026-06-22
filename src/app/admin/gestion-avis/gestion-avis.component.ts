@@ -1,5 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AvisService } from '../../core/services/avis.service';
 import { Avis } from '../../core/models/avis.model';
 import { ApiUrlPipe } from '../../core/pipes/api-url.pipe';
@@ -11,15 +13,18 @@ import { ApiUrlPipe } from '../../core/pipes/api-url.pipe';
   templateUrl: './gestion-avis.component.html',
   styleUrls: ['./gestion-avis.component.scss']
 })
-export class GestionAvisComponent implements OnInit {
+export class GestionAvisComponent implements OnInit, OnDestroy {
   private avisService = inject(AvisService);
+  private destroy$ = new Subject<void>();
   avis: Avis[] = [];
   filtre: 'tous' | 'attente' | 'approuves' = 'attente';
 
   ngOnInit() { this.load(); }
 
+  ngOnDestroy() { this.destroy$.next(); this.destroy$.complete(); }
+
   load() {
-    this.avisService.getTousLesAvis().subscribe(a => this.avis = a);
+    this.avisService.getTousLesAvis().pipe(takeUntil(this.destroy$)).subscribe(a => this.avis = a);
   }
 
   get enAttente(): number { return this.avis.filter(a => !a.approuve).length; }

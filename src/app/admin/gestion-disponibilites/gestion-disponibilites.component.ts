@@ -1,5 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { DisponibiliteService } from '../../core/services/disponibilite.service';
@@ -14,10 +16,11 @@ const PAGE_SIZE = 15;
   templateUrl: './gestion-disponibilites.component.html',
   styleUrls: ['./gestion-disponibilites.component.scss']
 })
-export class GestionDisponibilitesComponent implements OnInit {
+export class GestionDisponibilitesComponent implements OnInit, OnDestroy {
   private service = inject(DisponibiliteService);
   private fb = inject(FormBuilder);
   private datePipe = new DatePipe('fr');
+  private destroy$ = new Subject<void>();
 
   disponibilites: Disponibilite[] = [];
   showForm = false;
@@ -38,8 +41,10 @@ export class GestionDisponibilitesComponent implements OnInit {
 
   ngOnInit() { this.load(); }
 
+  ngOnDestroy() { this.destroy$.next(); this.destroy$.complete(); }
+
   load() {
-    this.service.getToutesLesDisponibilites().subscribe(d => {
+    this.service.getToutesLesDisponibilites().pipe(takeUntil(this.destroy$)).subscribe(d => {
       this.disponibilites = d;
       this.resetPage();
     });

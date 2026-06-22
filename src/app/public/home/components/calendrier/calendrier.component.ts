@@ -1,5 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { DisponibiliteService } from '../../../../core/services/disponibilite.service';
 import { Disponibilite } from '../../../../core/models/disponibilite.model';
 
@@ -10,8 +12,9 @@ import { Disponibilite } from '../../../../core/models/disponibilite.model';
   templateUrl: './calendrier.component.html',
   styleUrls: ['./calendrier.component.scss']
 })
-export class CalendrierComponent implements OnInit {
+export class CalendrierComponent implements OnInit, OnDestroy {
   private dispoService = inject(DisponibiliteService);
+  private destroy$ = new Subject<void>();
 
   today = new Date();
   currentYear = this.today.getFullYear();
@@ -22,8 +25,10 @@ export class CalendrierComponent implements OnInit {
   readonly JOURS = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 
   ngOnInit() {
-    this.dispoService.getDisponibilites().subscribe(d => this.dispos = d);
+    this.dispoService.getDisponibilites().pipe(takeUntil(this.destroy$)).subscribe(d => this.dispos = d);
   }
+
+  ngOnDestroy() { this.destroy$.next(); this.destroy$.complete(); }
 
   prevMonth() {
     if (this.currentMonth === 0) { this.currentMonth = 11; this.currentYear--; }
