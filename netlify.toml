@@ -5,6 +5,15 @@
 [build.environment]
   NODE_VERSION = "20"
 
+[build.processing]
+  skip_processing = false
+
+[build.processing.html]
+  pretty_urls = true
+
+[prerendering]
+  enabled = false
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
