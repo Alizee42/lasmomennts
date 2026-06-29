@@ -154,6 +154,7 @@ export class ParametresComponent implements OnInit, OnDestroy {
     this.service.updateFichier(cle, file).subscribe(c => {
       this.config = c;
       this.form.patchValue(c);
+      this.form.markAsDirty();
     });
   }
 
