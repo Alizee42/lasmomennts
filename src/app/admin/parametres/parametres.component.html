@@ -7,19 +7,11 @@
         <p class="page-header__eyebrow">Administration</p>
         <h1>Paramètres du site</h1>
       </div>
-      <button class="save-btn"
-              [class.save-btn--dirty]="form.dirty"
-              [class.save-btn--saving]="saving"
-              [disabled]="form.pristine || saving"
-              (click)="submit()">
-        <i class="fas" [class.fa-check]="!saving" [class.fa-spinner]="saving" [class.fa-spin]="saving"></i>
-        {{ saving ? 'Enregistrement…' : 'Enregistrer' }}
-      </button>
     </div>
   </div>
 
   <!-- Toast succès -->
-  <div class="toast-success" [class.toast-success--visible]="saved">
+  <div class="toast-success" [class.toast-success--visible]="savedTab === activeTab">
     <div class="toast-success__icon"><i class="fas fa-check"></i></div>
     <div class="toast-success__text">
       <strong>Modifications enregistrées</strong>
@@ -29,24 +21,16 @@
 
   <!-- Onglets -->
   <div class="param-tabs">
-    <button [class.active]="activeTab === 'hero'"     (click)="activeTab = 'hero'">
-      <i class="fas fa-home"></i> Hero
-    </button>
-    <button [class.active]="activeTab === 'about'"    (click)="activeTab = 'about'">
-      <i class="fas fa-user"></i> À propos
-    </button>
-    <button [class.active]="activeTab === 'services'" (click)="activeTab = 'services'">
-      <i class="fas fa-star"></i> Services
-    </button>
-    <button [class.active]="activeTab === 'tarifs'"   (click)="activeTab = 'tarifs'">
-      <i class="fas fa-tag"></i> Tarifs
-    </button>
-    <button [class.active]="activeTab === 'contact'"  (click)="activeTab = 'contact'">
-      <i class="fas fa-envelope"></i> Contact
+    <button *ngFor="let tab of tabs"
+            [class.active]="activeTab === tab.key"
+            (click)="selectTab(tab.key)">
+      <i class="fas" [ngClass]="tab.icon"></i>
+      {{ tab.label }}
+      <span class="dirty-dot" *ngIf="isDirty(tab.key)"></span>
     </button>
   </div>
 
-  <form [formGroup]="form" class="param-body">
+  <form [formGroup]="forms[activeTab]" class="param-body">
 
     <!-- ── HERO ── -->
     <ng-container *ngIf="activeTab === 'hero'">
@@ -386,6 +370,18 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Bouton Enregistrer par onglet -->
+    <div class="tab-save-bar">
+      <button class="save-btn"
+              [class.save-btn--dirty]="forms[activeTab].dirty"
+              [class.save-btn--saving]="saving"
+              [disabled]="forms[activeTab].pristine || saving"
+              (click)="submit(activeTab)">
+        <i class="fas" [class.fa-check]="!saving" [class.fa-spinner]="saving" [class.fa-spin]="saving"></i>
+        {{ saving ? 'Enregistrement…' : 'Enregistrer' }}
+      </button>
     </div>
 
   </form>

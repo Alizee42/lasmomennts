@@ -144,6 +144,7 @@
   padding: 0 2.5rem;
 
   button {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -177,6 +178,30 @@
       i { color: var(--color-violet); }
     }
   }
+}
+
+.dirty-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #F97316;
+  flex-shrink: 0;
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.75); }
+}
+
+// ── Tab save bar ─────────────────────────────────────
+.tab-save-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 0 0;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--color-border);
 }
 
 // ── Body ─────────────────────────────────────────────
@@ -344,11 +369,21 @@
     background: #fff;
     outline: none;
     resize: vertical;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 
     &:focus {
       border-color: var(--color-violet);
       box-shadow: 0 0 0 3px rgba(155,35,53,0.08);
+    }
+
+    &.input--dirty {
+      background: #FFF8EE;
+      border-color: #F97316;
+    }
+
+    &.input--dirty:focus {
+      border-color: #F97316;
+      box-shadow: 0 0 0 3px rgba(249,115,22,0.12);
     }
   }
 }
@@ -595,6 +630,7 @@
     transition: border-color 0.2s;
 
     &:focus { border-color: var(--color-violet); }
+    &.input--dirty { background: #FFF8EE; border-color: #F97316; }
   }
 }
 
