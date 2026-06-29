@@ -2,7 +2,7 @@
 
   <!-- Vidéo de fond -->
   <div class="hero__video-wrapper" *ngIf="config.hero_video_url; else imgFallback">
-    <video class="hero__video" [src]="config.hero_video_url | apiUrl" muted loop autoplay playsinline></video>
+    <video #heroVideo class="hero__video" [src]="config.hero_video_url | apiUrl" muted loop autoplay playsinline></video>
   </div>
   <ng-template #imgFallback>
     <div class="hero__video-wrapper hero__video-wrapper--placeholder"></div>

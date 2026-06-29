@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, ElementRef, ViewChild, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiUrlPipe } from '../../../../core/pipes/api-url.pipe';
 import { SiteConfig } from '../../../../core/models/site-config.model';
@@ -13,12 +13,18 @@ import { SiteConfig } from '../../../../core/models/site-config.model';
 export class HeroComponent implements AfterViewInit {
   @Input() config!: SiteConfig;
   @ViewChild('bgMusic') bgMusic!: ElementRef<HTMLAudioElement>;
+  @ViewChild('heroVideo') heroVideo?: ElementRef<HTMLVideoElement>;
 
   playing = false;
 
   ngAfterViewInit() {
     const audio = this.bgMusic.nativeElement;
     audio.volume = 0.3;
+    if (this.heroVideo) {
+      const vid = this.heroVideo.nativeElement;
+      vid.muted = true;
+      vid.play().catch(() => {});
+    }
   }
 
   toggleMusic() {
