@@ -20,7 +20,7 @@ export class ParametresComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private destroy$ = new Subject<void>();
 
-  private base = environment.apiUrl.replace('/api', '');
+  private base = environment.apiUrl.replace(/\/api$/, '');
   saved = false;
   saving = false;
   activeTab: 'hero' | 'about' | 'services' | 'tarifs' | 'contact' = 'hero';

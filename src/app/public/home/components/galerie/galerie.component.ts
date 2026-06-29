@@ -17,7 +17,7 @@ import { environment } from '../../../../../environments/environment';
 export class GalerieComponent implements OnInit, OnDestroy {
   private videoService = inject(VideoService);
   private destroy$ = new Subject<void>();
-  private base = environment.apiUrl.replace('/api', '');
+  private base = environment.apiUrl.replace(/\/api$/, '');
   videos: Video[] = [];
   activeVideo: Video | null = null;
   thumbnails: Record<string, string> = {};

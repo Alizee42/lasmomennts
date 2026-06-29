@@ -19,7 +19,7 @@ import { environment } from '../../../environments/environment';
 export class GestionVideosComponent implements OnInit, OnDestroy {
   private service = inject(VideoService);
   private fb = inject(FormBuilder);
-  private base = environment.apiUrl.replace('/api', '');
+  private base = environment.apiUrl.replace(/\/api$/, '');
   private destroy$ = new Subject<void>();
 
   videos: Video[] = [];
