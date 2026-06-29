@@ -7,15 +7,24 @@
         <p class="page-header__eyebrow">Administration</p>
         <h1>Paramètres du site</h1>
       </div>
-      <button class="save-btn" (click)="submit()">
-        <i class="fas fa-check"></i> Enregistrer
+      <button class="save-btn"
+              [class.save-btn--dirty]="form.dirty"
+              [class.save-btn--saving]="saving"
+              [disabled]="form.pristine || saving"
+              (click)="submit()">
+        <i class="fas" [class.fa-check]="!saving" [class.fa-spinner]="saving" [class.fa-spin]="saving"></i>
+        {{ saving ? 'Enregistrement…' : 'Enregistrer' }}
       </button>
     </div>
   </div>
 
   <!-- Toast succès -->
-  <div class="toast-success" *ngIf="saved">
-    <i class="fas fa-check-circle"></i> Modifications enregistrées !
+  <div class="toast-success" [class.toast-success--visible]="saved">
+    <div class="toast-success__icon"><i class="fas fa-check"></i></div>
+    <div class="toast-success__text">
+      <strong>Modifications enregistrées</strong>
+      <span>Les changements sont bien pris en compte.</span>
+    </div>
   </div>
 
   <!-- Onglets -->
@@ -57,6 +66,7 @@
           <span>MP4 recommandé</span>
         </div>
         <input #heroVideoInput type="file" accept="video/*" (change)="uploadFichier('hero_video_url', $event)" hidden />
+        <p class="upload-tip"><i class="fas fa-lightbulb"></i> Idéal : vidéo <strong>16:9 horizontal</strong>, sujet centré, sans texte. Le titre du site s'affiche par-dessus.</p>
       </div>
       <div class="param-section">
         <p class="section-label">Textes principaux</p>
@@ -150,12 +160,22 @@
       <!-- Col 1 : Photo -->
       <div class="param-section about-photo-section">
         <p class="section-label">Photo</p>
-        <div class="drop-zone about-drop" (click)="aboutPhotoInput.click()">
-          <input #aboutPhotoInput type="file" accept="image/*" (change)="uploadFichier('about_photo_url', $event)" hidden />
-          <i class="fas fa-image"></i>
-          <p>Changer la photo</p>
-          <span>JPG, PNG, WebP</span>
+        <input #aboutPhotoInput type="file" accept="image/*" (change)="uploadFichier('about_photo_url', $event)" hidden />
+        <div class="video-preview" *ngIf="config.about_photo_url; else aboutDropZone">
+          <img [src]="getUrl(config.about_photo_url)" alt="Photo à propos" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" />
+          <div class="video-preview__overlay" (click)="aboutPhotoInput.click()">
+            <i class="fas fa-pencil-alt"></i>
+            <span>Changer la photo</span>
+          </div>
         </div>
+        <ng-template #aboutDropZone>
+          <div class="drop-zone about-drop" (click)="aboutPhotoInput.click()">
+            <i class="fas fa-image"></i>
+            <p>Ajouter une photo</p>
+            <span>JPG, PNG, WebP</span>
+          </div>
+        </ng-template>
+        <p class="upload-tip"><i class="fas fa-lightbulb"></i> Idéal : photo <strong>portrait (3:4)</strong> ou carrée, visage/sujet bien centré. Évite les bords importants, ils seront coupés.</p>
       </div>
 
       <!-- Col 2 : Textes (occupe 2 colonnes) -->
@@ -201,13 +221,23 @@
     <div *ngIf="activeTab === 'services'" class="layout-3col">
       <div class="param-section" *ngFor="let s of [1,2,3]">
         <p class="section-label">Service {{ s }}</p>
-        <div class="drop-zone drop-zone--sm" style="margin-bottom:1rem" (click)="serviceInput(s).click()">
-          <input [id]="'svc'+s" type="file" accept="image/*" (change)="uploadFichier('service'+s+'_image_url', $event)" hidden />
-          <i class="fas fa-image"></i>
-          <p>Image</p>
-          <span>JPG, PNG</span>
+        <input [id]="'svc'+s" type="file" accept="image/*" (change)="uploadFichier('service'+s+'_image_url', $event)" hidden />
+        <div class="video-preview" *ngIf="config['service'+s+'_image_url']; else svcDrop">
+          <img [src]="getUrl(config['service'+s+'_image_url'])" [alt]="'Service '+s" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" />
+          <div class="video-preview__overlay" (click)="serviceInput(s).click()">
+            <i class="fas fa-pencil-alt"></i>
+            <span>Changer l'image</span>
+          </div>
         </div>
-        <div class="field" style="margin-bottom:0.9rem">
+        <ng-template #svcDrop>
+          <div class="drop-zone drop-zone--sm" style="margin-bottom:1rem" (click)="serviceInput(s).click()">
+            <i class="fas fa-image"></i>
+            <p>Image</p>
+            <span>JPG, PNG</span>
+          </div>
+        </ng-template>
+        <p class="upload-tip"><i class="fas fa-lightbulb"></i> Idéal : photo <strong>paysage (4:3 ou 16:9)</strong>, sujet centré. Évite les textes sur l'image.</p>
+        <div class="field" style="margin-bottom:0.9rem;margin-top:0.75rem">
           <label>Titre</label>
           <input [formControlName]="'service'+s+'_titre'" type="text" />
         </div>

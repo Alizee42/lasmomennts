@@ -22,6 +22,7 @@ export class ParametresComponent implements OnInit, OnDestroy {
 
   private base = environment.apiUrl.replace('/api', '');
   saved = false;
+  saving = false;
   activeTab: 'hero' | 'about' | 'services' | 'tarifs' | 'contact' = 'hero';
   config: SiteConfig = {} as SiteConfig;
 
@@ -130,17 +131,20 @@ export class ParametresComponent implements OnInit, OnDestroy {
   trackByIndex(i: number) { return i; }
 
   submit() {
+    if (this.form.pristine || this.saving) return;
+    this.saving = true;
     const updates: Partial<SiteConfig> = {};
     Object.entries(this.form.value).forEach(([k, v]) => {
       if (v !== null && v !== undefined && v !== '') updates[k as keyof SiteConfig] = v as string;
     });
-    // convertir les tableaux en strings |
     Object.keys(this.features).forEach(key => {
       (updates as any)[key] = this.features[key].filter(Boolean).join('|');
     });
     this.service.updateTexte(updates).subscribe(() => {
+      this.saving = false;
       this.saved = true;
-      setTimeout(() => this.saved = false, 3000);
+      this.form.markAsPristine();
+      setTimeout(() => this.saved = false, 3500);
     });
   }
 

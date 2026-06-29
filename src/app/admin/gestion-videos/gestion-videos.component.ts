@@ -28,6 +28,8 @@ export class GestionVideosComponent implements OnInit, OnDestroy {
   uploadProgress = 0;
   fichier: File | null = null;
   thumbnail: File | null = null;
+  fichierPreview: string | null = null;
+  thumbnailPreview: string | null = null;
   thumbnails: Record<number, string> = {};
   modalVideo: Video | null = null;
 
@@ -69,11 +71,15 @@ export class GestionVideosComponent implements OnInit, OnDestroy {
   }
 
   onFichier(e: Event) {
-    this.fichier = (e.target as HTMLInputElement).files?.[0] ?? null;
+    const file = (e.target as HTMLInputElement).files?.[0] ?? null;
+    this.fichier = file;
+    this.fichierPreview = file ? URL.createObjectURL(file) : null;
   }
 
   onThumbnail(e: Event) {
-    this.thumbnail = (e.target as HTMLInputElement).files?.[0] ?? null;
+    const file = (e.target as HTMLInputElement).files?.[0] ?? null;
+    this.thumbnail = file;
+    this.thumbnailPreview = file ? URL.createObjectURL(file) : null;
   }
 
   submit() {
@@ -91,6 +97,8 @@ export class GestionVideosComponent implements OnInit, OnDestroy {
             this.form.reset();
             this.fichier = null;
             this.thumbnail = null;
+            this.fichierPreview = null;
+            this.thumbnailPreview = null;
             this.showForm = false;
             this.uploading = false;
             this.uploadProgress = 0;
